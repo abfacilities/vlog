@@ -59,3 +59,21 @@ footer.site .bottom{border-top:1px solid #1e3a5f;margin-top:32px;padding-top:20p
 .blog-list a.read{font-weight:700;color:var(--accent)}
 .form-row{display:grid;gap:16px;max-width:500px;margin-top:24px}
 .form-row input,.form-row textarea{padding:12px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:1rem}
+
+/* --- Mobile nav + responsive fixes (2026-08-19) --- */
+.nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:32px;height:32px;background:none;border:0;cursor:pointer;padding:0;order:2}
+.nav-toggle span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+@media (max-width:860px){
+  header.site .nav-row{flex-wrap:wrap}
+  .nav-cta{order:1}
+  .nav-toggle{display:flex}
+  nav.main{display:none;flex-direction:column;align-items:flex-start;width:100%;order:3;padding:12px 0 4px;border-top:1px solid var(--border)}
+  nav.main.open{display:flex}
+  nav.main a{margin:8px 0}
+  .phone{display:none}
+  footer.site .grid{grid-template-columns:1fr;gap:28px}
+}
