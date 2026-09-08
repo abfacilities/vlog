@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.abfacilities.co.uk/</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
@@ -17,7 +17,7 @@
   </url>
   <url>
     <loc>https://www.abfacilities.co.uk/services/compliance-audits/</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -42,7 +42,7 @@
   </url>
   <url>
     <loc>https://www.abfacilities.co.uk/sectors/</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -52,7 +52,7 @@
   </url>
   <url>
     <loc>https://www.abfacilities.co.uk/blog/</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -72,7 +72,7 @@
   </url>
   <url>
     <loc>https://www.abfacilities.co.uk/blog/building-safety-regulator-2026-fire-door-golden-thread/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
@@ -107,7 +107,7 @@
   </url>
   <url>
     <loc>https://www.abfacilities.co.uk/compliance-changes/</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -153,6 +153,11 @@
   <url>
     <loc>https://www.abfacilities.co.uk/blog/fire-safety-residential-evacuation-plans-2026/</loc>
     <lastmod>2026-08-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.abfacilities.co.uk/blog/approved-document-b-fire-safety-amendments-2026/</loc>
+    <lastmod>2026-09-08</lastmod>
     <priority>0.7</priority>
   </url>
 </urlset>
