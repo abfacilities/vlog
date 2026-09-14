@@ -58,7 +58,8 @@ footer.site .bottom{border-top:1px solid #1e3a5f;margin-top:32px;padding-top:20p
 .blog-list h3{margin:.3em 0}
 .blog-list a.read{font-weight:700;color:var(--accent)}
 .form-row{display:grid;gap:16px;max-width:500px;margin-top:24px}
-.form-row input,.form-row textarea{padding:12px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:1rem}
+.form-row input,.form-row textarea{padding:12px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:1rem;transition:border-color .15s ease,box-shadow .15s ease}
+.form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(28,125,128,.15)}
 
 /* --- Mobile nav + responsive fixes (2026-08-19) --- */
 .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:32px;height:32px;background:none;border:0;cursor:pointer;padding:0;order:2}
