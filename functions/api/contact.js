@@ -58,7 +58,7 @@ export async function onRequestPost(context) {
   }
 
   const toEmail = env.CONTACT_TO_EMAIL || 'contact@abfacilities.com';
-  const fromEmail = env.CONTACT_FROM_EMAIL || 'AB Facilities Website <onboarding@resend.dev>';
+  const fromEmail = env.CONTACT_FROM_EMAIL || 'AB Facilities Website <contact@abfacilities.com>';
 
   const lines = [
     `Name: ${name}`,
