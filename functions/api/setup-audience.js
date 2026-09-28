@@ -7,8 +7,8 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  if (!env.RESEND_API_KEY) {
-    return new Response(JSON.stringify({ error: 'RESEND_API_KEY not set' }), { status: 500 });
+  if (!env.NEWSLETTER_RESEND_API_KEY) {
+    return new Response(JSON.stringify({ error: 'NEWSLETTER_RESEND_API_KEY not set' }), { status: 500 });
   }
   if (!env.ADMIN_SETUP_SECRET) {
     return new Response(JSON.stringify({ error: 'ADMIN_SETUP_SECRET not set' }), { status: 500 });
@@ -23,7 +23,7 @@ export async function onRequestPost(context) {
     const res = await fetch('https://api.resend.com/audiences', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        Authorization: `Bearer ${env.NEWSLETTER_RESEND_API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ name: 'AB Facilities Website Subscribers' })

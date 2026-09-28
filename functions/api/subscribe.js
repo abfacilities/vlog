@@ -10,8 +10,9 @@
 // the pattern used by functions/api/contact.js.
 //
 // Required environment variables (set in Cloudflare Pages project settings, never in git):
-//   RESEND_API_KEY      - API key from resend.com
-//   RESEND_AUDIENCE_ID   - Resend Audience ID to add subscribers to (see setup-audience.js)
+//   RESEND_API_KEY            - API key from resend.com (used for the lead-notification email)
+//   RESEND_AUDIENCE_ID        - Resend Audience ID to add subscribers to (see setup-audience.js)
+//   NEWSLETTER_RESEND_API_KEY - Fully-permissioned Resend key (Audiences/Broadcasts), used to add contacts
 //
 // Optional environment variables:
 //   CONTACT_TO_EMAIL    - Where lead notifications land. Defaults to contact@abfacilities.com
@@ -70,12 +71,12 @@ export async function onRequestPost(context) {
   // Add to the Resend audience so this person actually receives future newsletter sends.
   // Non-fatal if this fails (e.g. audience not configured yet, or already subscribed) -
   // we still want the visitor to get their checklist / confirmation.
-  if (env.RESEND_AUDIENCE_ID) {
+  if (env.RESEND_AUDIENCE_ID && env.NEWSLETTER_RESEND_API_KEY) {
     try {
       await fetch(`https://api.resend.com/audiences/${env.RESEND_AUDIENCE_ID}/contacts`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          Authorization: `Bearer ${env.NEWSLETTER_RESEND_API_KEY}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ email: String(email), unsubscribed: false })

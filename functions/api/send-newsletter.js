@@ -15,7 +15,7 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  if (!env.RESEND_API_KEY || !env.RESEND_AUDIENCE_ID || !env.NEWSLETTER_SECRET) {
+  if (!env.NEWSLETTER_RESEND_API_KEY || !env.RESEND_AUDIENCE_ID || !env.NEWSLETTER_SECRET) {
     return new Response(JSON.stringify({ error: 'Newsletter sending is not fully configured yet.' }), { status: 500 });
   }
 
@@ -35,14 +35,14 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({ error: 'subject and (html or text) are required' }), { status: 400 });
   }
 
-  const fromEmail = env.CONTACT_FROM_EMAIL || 'AB Facilities Website <contact@abfacilities.com>';
+  const fromEmail = env.NEWSLETTER_FROM_EMAIL || 'AB Facilities Updates <news@updates.abfacilities.com>';
 
   try {
     // Create the broadcast
     const createRes = await fetch('https://api.resend.com/broadcasts', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        Authorization: `Bearer ${env.NEWSLETTER_RESEND_API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -63,7 +63,7 @@ export async function onRequestPost(context) {
     const sendRes = await fetch(`https://api.resend.com/broadcasts/${createData.id}/send`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        Authorization: `Bearer ${env.NEWSLETTER_RESEND_API_KEY}`,
         'Content-Type': 'application/json'
       }
     });
