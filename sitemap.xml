@@ -107,7 +107,12 @@
   </url>
   <url>
     <loc>https://www.abfacilities.co.uk/compliance-changes/</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.abfacilities.co.uk/guide/</loc>
+    <lastmod>2026-09-28</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
@@ -133,6 +138,11 @@
   <url>
     <loc>https://www.abfacilities.co.uk/blog/is-your-site-audit-ready/</loc>
     <lastmod>2026-08-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.abfacilities.co.uk/blog/school-allergy-safety-policy-2026/</loc>
+    <lastmod>2026-09-28</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
