@@ -24,8 +24,9 @@ nav.main a.active{color:var(--white)}
 .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:var(--white);padding:72px 0}
 .hero .eyebrow{color:var(--accent);font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.85rem}
 .hero h1{font-size:2.6rem;margin:.4em 0;max-width:700px}
-.hero h1 em{color:var(--accent);font-style:normal}
+.hero h1 em{color:#5fe0d8;font-style:normal}
 .hero p{max-width:600px;color:#cbd5e1;font-size:1.1rem}
+.hero-sub{max-width:560px;color:#cbd5e1;font-size:1.1rem;margin-top:0}
 .hero .cta-row{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
 .stats{display:flex;gap:40px;margin-top:40px;flex-wrap:wrap}
 .stats div b{display:block;font-size:1.6rem;color:var(--accent)}
