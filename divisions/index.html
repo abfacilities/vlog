@@ -31,7 +31,8 @@
   .badge-dev      { background: #fef3c7; color: #92400e; }
   .badge-future   { background: #ede9fe; color: #5b21b6; }
   .division-card  { border: 1px solid #e2e8f0; border-radius: 10px; padding: 32px 28px; background: #fff; display: flex; flex-direction: column; }
-  .division-card .div-logo { height: 100px; width: auto; margin-bottom: 20px; display: block; }
+  .division-card .div-logo-wrap { width: 140px; height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .division-card .div-logo { max-width: 140px; max-height: 100px; width: auto; height: auto; display: block; object-fit: contain; }
   .division-card h3 { font-size: 1.2rem; color: var(--navy); margin: 0 0 10px; }
   .division-card p { color: var(--muted); font-size: .95rem; flex: 1; margin: 0 0 20px; }
   .division-card a.learn { color: var(--teal); font-weight: 600; font-size: .9rem; text-decoration: none; }
@@ -83,7 +84,7 @@
 
         <!-- AB Facilities Consultants -->
         <div class="division-card">
-          <img class="div-logo" src="/assets/logo-full.png" alt="AB Facilities Consultants">
+          <div class="div-logo-wrap"><img class="div-logo" src="/assets/logo-full.png" alt="AB Facilities Consultants" style="max-width:110px;max-height:70px"></div>
           <span class="division-status-badge badge-active">Operating Business</span>
           <h3>AB Facilities Consultants</h3>
           <p>The active FM consultancy — delivering outsourced FM management, compliance, maintenance coordination and one-off services to commercial clients across Merseyside and the North West. All current service enquiries are handled here.</p>
@@ -92,7 +93,7 @@
 
         <!-- AB Cleaning -->
         <div class="division-card">
-          <img class="div-logo" src="/assets/logos/ab-cleaning.svg" alt="AB Cleaning">
+          <div class="div-logo-wrap"><img class="div-logo" src="/assets/logos/ab-cleaning.svg" alt="AB Cleaning"></div>
           <span class="division-status-badge badge-dev">In Development</span>
           <h3>AB Cleaning</h3>
           <p>A dedicated commercial cleaning division providing managed, professional cleaning services to AB Facilities Consultants clients and directly contracted sites across the region. Currently in development — not yet trading.</p>
@@ -101,7 +102,7 @@
 
         <!-- AB Technical -->
         <div class="division-card">
-          <img class="div-logo" src="/assets/logos/ab-technical.svg" alt="AB Technical">
+          <div class="div-logo-wrap"><img class="div-logo" src="/assets/logos/ab-technical.svg" alt="AB Technical"></div>
           <span class="division-status-badge badge-dev">In Development</span>
           <h3>AB Technical</h3>
           <p>Specialist technical FM — electrical, mechanical, HVAC and building fabric services. AB Technical will provide in-house technical capacity to support the FM consultancy and standalone technical clients. Currently in development — not yet trading.</p>
@@ -110,7 +111,7 @@
 
         <!-- AB Property -->
         <div class="division-card">
-          <img class="div-logo" src="/assets/logos/ab-property.svg" alt="AB Property">
+          <div class="div-logo-wrap"><img class="div-logo" src="/assets/logos/ab-property.svg" alt="AB Property"></div>
           <span class="division-status-badge badge-dev">In Development</span>
           <h3>AB Property</h3>
           <p>Property management and vacant property services, extending the group's FM offer into estate management, landlord services and property compliance. Currently in development — not yet trading.</p>
@@ -119,7 +120,7 @@
 
         <!-- AB Group -->
         <div class="division-card">
-          <img class="div-logo" src="/assets/logos/ab-group.svg" alt="AB Group">
+          <div class="div-logo-wrap"><img class="div-logo" src="/assets/logos/ab-group.svg" alt="AB Group"></div>
           <span class="division-status-badge badge-future">Future Parent Identity</span>
           <h3>AB Group</h3>
           <p>The future parent holding identity for all AB divisions. AB Group will sit above the operating businesses once the division structure is fully established. Not currently trading — AB Facilities Consultants is the active company.</p>
