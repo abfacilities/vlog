@@ -21,7 +21,17 @@ export async function onRequestPost(context) {
     return jsonErr('Invalid request body.', 400);
   }
 
-  const { type, sessionData = {}, conversation = [] } = body;
+  // Idempotency: if the client sends a submissionId, we could check KV here.
+  // For now, log it so duplicates are visible in Cloudflare logs.
+  if (body.submissionId) {
+    console.log('ai-submit submissionId:', body.submissionId);
+  }
+
+  const { type, sessionData = {}, conversation = [], includeTranscript = false } = body;
+  // Transcript is opt-in. By default, only structured fields are sent to AB's inbox.
+  // The customer's conversation with the AI is not included unless includeTranscript is true.
+  // This limits the data sent per submission and avoids retaining raw AI dialogue unnecessarily.
+  const transcriptToSend = includeTranscript ? conversation : [];
 
   if (!type) return jsonErr('Submission type required.', 400);
 
@@ -43,13 +53,13 @@ export async function onRequestPost(context) {
 
   if (type === 'fault') {
     subject = `ABFC — FAULT REPORT — ${esc(sessionData.site || 'Unknown site')}`;
-    html = buildFaultEmail({ sessionData, conversation, ts });
+    html = buildFaultEmail({ sessionData, conversation: transcriptToSend, ts });
   } else if (type === 'quote') {
     subject = `ABFC — Quote Request — ${esc(name)} — ${esc(sessionData.siteType || sessionData.site || 'Site')}`;
-    html = buildQuoteEmail({ sessionData, conversation, ts });
+    html = buildQuoteEmail({ sessionData, conversation: transcriptToSend, ts });
   } else {
     subject = `ABFC — AI Enquiry — ${esc(name)}`;
-    html = buildEnquiryEmail({ sessionData, conversation, ts });
+    html = buildEnquiryEmail({ sessionData, conversation: transcriptToSend, ts });
   }
 
   const resendRes = await fetch('https://api.resend.com/emails', {
@@ -180,11 +190,14 @@ function buildFaultEmail({ sessionData, conversation, ts }) {
 
 function buildAckEmail({ name, type, ts }) {
   const typeLabel = type === 'fault' ? 'fault report' : 'enquiry';
+  const urgencyNote = type === 'fault'
+    ? '<p style="background:#fef3c7;border-left:3px solid #d97706;padding:10px 14px;border-radius:0 6px 6px 0"><strong>If there is an immediate safety risk,</strong> do not wait for a reply — call us now on <a href="tel:+447944308462">07944 308462</a>, or contact the emergency services if needed.</p>'
+    : '<p>If this is urgent, call us on <a href="tel:+447944308462">07944 308462</a>.</p>';
   return wrapEmail(`
     <h2 style="color:#0d1f3c;margin:0 0 4px">Thanks, ${esc(name)} — we've received your ${typeLabel}</h2>
     <p style="color:#718096;margin:0 0 24px;font-size:13px">Sent ${ts}</p>
-    <p>We've received your ${typeLabel} and will come back to you within ${type === 'fault' ? 'one working day' : 'two working days'}.</p>
-    <p>If this is urgent or you need to speak to someone now, call us on <a href="tel:+447944308462">07944 308462</a>.</p>
+    <p>We've received your ${typeLabel} and will be in touch as soon as possible.</p>
+    ${urgencyNote}
     <p style="color:#718096;font-size:13px;margin-top:24px">AB Facilities Consultants · Bootle, Liverpool · <a href="https://www.abfacilities.com">abfacilities.com</a></p>
   `);
 }

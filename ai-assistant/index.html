@@ -170,6 +170,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var isLoading = false;
   var pendingReview = null; // {type, sessionData, conversation}
   var submitted = false;
+  var submitting = false; // prevent double-submit
 
   var chatWindow = document.getElementById('chatWindow');
   var chatInput = document.getElementById('chatInput');
@@ -291,7 +292,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   window.submitReview = function () {
-    if (!pendingReview) return;
+    if (!pendingReview || submitting) return; // prevent double-submit
+    submitting = true;
 
     // Disable buttons
     var btns = chatWindow.querySelectorAll('.btn-confirm, .btn-edit');
@@ -299,14 +301,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     setStatus('Sending…');
 
+    // Add a unique submission ID so server can log any retries
+    var payload = Object.assign({}, pendingReview, {
+      submissionId: 'sub-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+    });
+
     fetch('/api/ai-submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(pendingReview),
+      body: JSON.stringify(payload),
     })
       .then(function (res) { return res.json().then(function (b) { return { ok: res.ok, body: b }; }); })
       .then(function (result) {
         setStatus('');
+        submitting = false;
         if (result.ok) {
           submitted = true;
           updateSendBtn();
@@ -318,8 +326,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       })
       .catch(function () {
         setStatus('');
+        submitting = false;
         btns.forEach(function (b) { b.disabled = false; });
-        addErrorMessage('Something went wrong. Please call 07944 308462.');
+        addErrorMessage('Could not reach our server — please try again. If this keeps happening, call 07944 308462.');
       });
   };
 
@@ -330,13 +339,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   function showSuccessMessage(type) {
     var typeLabel = { enquiry: 'enquiry', quote: 'quote request', fault: 'fault report', checklist: 'request' }[type] || 'message';
+    var isFault = type === 'fault';
     var div = document.createElement('div');
     div.className = 'chat-msg ai';
     div.innerHTML = '<div class="chat-avatar">AB</div><div class="chat-bubble">' +
       '<p>✅ <strong>Your ' + esc(typeLabel) + ' has been sent.</strong></p>' +
-      '<p>We\'ve sent you a confirmation email. We\'ll come back to you within ' +
-      (type === 'fault' ? 'one working day' : 'two working days') + '.</p>' +
-      '<p>If this is urgent, call us now on <a href="tel:+447944308462">07944 308462</a>.</p>' +
+      '<p>We\'ve sent you a confirmation email. We\'ll be in touch as soon as possible.</p>' +
+      (isFault
+        ? '<p style="background:#fef3c7;border-left:3px solid #d97706;padding:8px 12px;border-radius:0 6px 6px 0;margin:8px 0 0"><strong>If there is an immediate safety risk</strong>, do not wait for a reply — call 07944 308462 now or contact the emergency services if needed.</p>'
+        : '<p>If this is urgent, call us on <a href="tel:+447944308462">07944 308462</a>.</p>'
+      ) +
       '</div>';
     chatWindow.appendChild(div);
     scrollToBottom();

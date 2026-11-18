@@ -134,6 +134,33 @@ export async function onRequestPost(context) {
 
   const { messages, mode = 'customer', sessionData } = body;
 
+  // Staff mode requires a valid token — enforce server-side
+  if (mode === 'staff') {
+    const secret = env.STAFF_TOKEN_SECRET;
+    if (!secret) return jsonErr('Staff workspace not configured.', 503);
+
+    const auth = request.headers.get('Authorization') || request.headers.get('X-Staff-Token') || '';
+    const tok = auth.replace('Bearer ', '').trim();
+    if (!tok) return jsonErr('Staff authentication required.', 401);
+
+    // Verify HMAC token
+    const parts = tok.split('.');
+    if (parts.length !== 2) return jsonErr('Invalid token.', 401);
+    const [payloadB64, sig] = parts;
+    try {
+      const enc = new TextEncoder();
+      const key = await crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
+      const sigBuf = Uint8Array.from(atob(sig), c => c.charCodeAt(0));
+      const valid = await crypto.subtle.verify('HMAC', key, sigBuf, enc.encode(payloadB64));
+      if (!valid) return jsonErr('Invalid token.', 401);
+      const payload = JSON.parse(atob(payloadB64));
+      if (!payload.role || payload.role !== 'staff') return jsonErr('Insufficient permissions.', 403);
+      if (payload.exp < Date.now()) return jsonErr('Session expired. Please sign in again.', 401);
+    } catch {
+      return jsonErr('Invalid token.', 401);
+    }
+  }
+
   if (!Array.isArray(messages) || messages.length === 0) {
     return jsonErr('No messages provided.', 400);
   }

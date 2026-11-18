@@ -16,7 +16,7 @@ export async function onRequestPost(context) {
   const secret = env.STAFF_TOKEN_SECRET;
 
   if (!correctPin || !secret) {
-    return jsonErr('Staff workspace not configured.', 500);
+    return jsonErr('Staff workspace is not yet configured. Contact the site administrator.', 503);
   }
 
   let body;
@@ -63,7 +63,7 @@ export async function onRequestOptions() {
 export async function onRequestGet(context) {
   const { request, env } = context;
   const secret = env.STAFF_TOKEN_SECRET;
-  if (!secret) return jsonErr('Not configured.', 500);
+  if (!secret) return jsonErr('Staff workspace is not yet configured.', 503);
 
   const auth = request.headers.get('Authorization') || '';
   const token = auth.replace('Bearer ', '').trim();
