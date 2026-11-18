@@ -2,251 +2,1059 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Get a Quote | AB Facilities Consultants</title>
-<meta name="description" content="Request a written FM proposal from AB Facilities Consultants. Tell us about your property and we'll respond within two working days.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TCDRF3SG');</script>
+<title>Request a Quote | AB Facilities Consultants</title>
+<meta name="description" content="Request a facilities management quote from AB Facilities Consultants. Tell us about your premises, services needed and we'll come back within two working days.">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="canonical" href="https://www.abfacilities.com/quote/">
 <link rel="stylesheet" href="/assets/style.css">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TCDRF3SG');</script>
-<!-- End Google Tag Manager -->
 <style>
-.form-section-title{font-size:1.1rem;font-weight:700;color:var(--navy);margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--accent-light)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:600px){.form-row{grid-template-columns:1fr}}
-.pkg-mini{background:var(--bg);border:1px solid #e2e8f0;border-radius:8px;padding:12px 16px;margin-bottom:10px}
-.pkg-mini h4{margin:0 0 2px;font-size:.95rem}
-.pkg-mini span{font-size:.85rem;color:var(--accent);font-weight:600}
-.checkboxes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-@media(max-width:500px){.checkboxes{grid-template-columns:1fr}}
-.checkbox-item{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
-.checkbox-item input{width:16px;height:16px;cursor:pointer}
+/* ── Multi-step form ── */
+.quote-wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 16px 64px;
+}
+
+/* Progress bar */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 40px;
+  padding: 0;
+}
+.prog-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  position: relative;
+}
+.prog-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 36px;
+  top: 18px;
+  right: -10px;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+.prog-step.done:not(:last-child)::after,
+.prog-step.active:not(:last-child)::after {
+  background: var(--accent);
+}
+.prog-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: .9rem;
+  border: 2px solid var(--border);
+  background: #fff;
+  color: var(--muted);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  transition: all .2s;
+}
+.prog-step.active .prog-num {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.prog-step.done .prog-num {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.prog-step.done .prog-num::after {
+  content: '✓';
+}
+.prog-step.done .prog-num span { display: none; }
+.prog-label {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.2;
+}
+.prog-step.active .prog-label { color: var(--navy); }
+.prog-step.done .prog-label { color: var(--accent); }
+
+/* Form panels */
+.form-panel { display: none; }
+.form-panel.active { display: block; }
+
+.form-panel h2 {
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+.form-panel .panel-desc {
+  color: var(--muted);
+  margin-bottom: 28px;
+  font-size: .95rem;
+}
+
+/* Field groups */
+.field-group {
+  margin-bottom: 20px;
+}
+.field-group label {
+  display: block;
+  font-weight: 600;
+  font-size: .9rem;
+  margin-bottom: 6px;
+  color: var(--navy);
+}
+.field-group label .opt {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: .8rem;
+}
+.field-group input,
+.field-group select,
+.field-group textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--navy);
+  background: #fff;
+  box-sizing: border-box;
+  transition: border-color .15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%234a5568' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(14,127,116,.12);
+}
+.field-group input.error,
+.field-group select.error,
+.field-group textarea.error {
+  border-color: #c0392b;
+}
+.field-error {
+  color: #c0392b;
+  font-size: .8rem;
+  margin-top: 4px;
+  display: none;
+}
+.field-error.show { display: block; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 540px) {
+  .field-row { grid-template-columns: 1fr; }
+  .prog-label { display: none; }
+}
+
+/* Service checkboxes */
+.service-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 540px) {
+  .service-grid { grid-template-columns: 1fr; }
+}
+.service-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  user-select: none;
+}
+.service-check:hover { border-color: var(--accent); background: var(--accent-light); }
+.service-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin-top: 1px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.service-check.checked {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.service-check span {
+  font-size: .88rem;
+  line-height: 1.35;
+  color: var(--navy);
+  font-weight: 500;
+}
+
+/* Package cards */
+.package-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 540px) {
+  .package-cards { grid-template-columns: 1fr; }
+}
+.pkg-card {
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.pkg-card:hover { border-color: var(--accent); }
+.pkg-card.selected { border-color: var(--accent); background: var(--accent-light); }
+.pkg-card input[type="radio"] {
+  min-width: 18px;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.pkg-card-text strong {
+  display: block;
+  font-size: .9rem;
+  color: var(--navy);
+}
+.pkg-card-text span {
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+/* Sector-specific hint */
+.sector-hint {
+  display: none;
+  background: var(--accent-light);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: .88rem;
+  color: var(--navy);
+}
+
+/* Nav buttons */
+.form-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  align-items: center;
+}
+.btn-back {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 24px;
+  font-size: 1rem;
+  color: var(--navy);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  transition: border-color .15s;
+}
+.btn-back:hover { border-color: var(--navy); }
+.btn-next, .btn-submit {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+}
+.btn-next:hover, .btn-submit:hover { background: var(--accent-dark); }
+.btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+
+.form-status {
+  margin-top: 16px;
+  font-size: .9rem;
+  min-height: 1.2em;
+}
+
+/* Success */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 48px 24px;
+}
+.form-success .success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 28px;
+}
+.form-success h2 { color: var(--navy); margin-bottom: 12px; }
+.form-success p { color: var(--muted); max-width: 440px; margin: 0 auto 24px; }
+
+/* Privacy */
+.privacy-note {
+  font-size: .8rem;
+  color: var(--muted);
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+/* Sector-specific questions */
+.sector-extras { display: none; }
+.sector-extras.show { display: block; }
 </style>
-<a class="skip-link" href="#main">Skip to content</a>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCDRF3SG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
 <header class="site">
   <div class="container nav-row">
     <a href="/" class="logo"><img src="/assets/logo-white.png" alt="AB Facilities Consultants" style="height:44px;display:block"></a>
-    <nav class="main" id="site-nav">
-      <a href="/">Home</a><a href="/services/">Services</a><a href="/packages/">Packages</a>
-      <a href="/industries/">Sectors</a><a href="/about/">About</a>
-      <a href="/blog/">Blog</a><a href="/contact/">Contact</a>
-    </nav>
+    <nav class="main" id="site-nav"><a href="/">Home</a><a href="/services/">Services</a><a href="/packages/">Packages</a><a href="/industries/">Industries</a><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/contact/">Contact</a></nav>
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
-    <div class="nav-cta">
-      <a class="phone" href="tel:+447944308462">07944 308462</a>
-      <a class="btn" href="/contact/">Get a Quote</a>
-    </div>
+    <div class="nav-cta"><a class="phone" href="tel:+447944308462">07944 308462</a><a class="btn" href="/quote/">Get a Quote</a></div>
   </div>
 </header>
-<main id="main">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="/">Home</a> › Get a Quote</div>
-      <div class="section-eyebrow">Get in Touch</div>
-      <h1>Request a Proposal</h1>
-      <p style="max-width:680px;font-size:1.1rem;color:var(--muted)">Tell us about your property and what you need. We'll put together a written proposal within two working days.</p>
-    </div>
+
+<section class="page-hero" style="padding-bottom:32px">
+  <div class="container">
+    <div class="section-eyebrow">Get in Touch</div>
+    <h1>Request a Quote</h1>
+    <p style="color:var(--muted);max-width:560px">Tell us about your premises and requirements. We aim to respond to commercial enquiries within two working days.</p>
   </div>
-  <section>
-    <div class="container">
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:48px;align-items:start">
-        <div>
-          <form id="quoteForm" novalidate>
-            <input type="text" name="bot-field" style="display:none" tabindex="-1" autocomplete="off">
-            <div class="form-section-title">Your Details</div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="fname">First name *</label>
-                <input type="text" id="fname" name="fname" required autocomplete="given-name">
-              </div>
-              <div class="form-group">
-                <label for="lname">Last name *</label>
-                <input type="text" id="lname" name="lname" required autocomplete="family-name">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email">Email address *</label>
-                <input type="email" id="email" name="email" required autocomplete="email">
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone number</label>
-                <input type="tel" id="phone" name="phone" autocomplete="tel">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="company">Company / organisation *</label>
-                <input type="text" id="company" name="company" required autocomplete="organization">
-              </div>
-              <div class="form-group">
-                <label for="role">Your role</label>
-                <input type="text" id="role" name="role" placeholder="e.g. Property Manager, Director">
-              </div>
-            </div>
-            <div class="form-section-title">Your Sites</div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="location">Location(s)</label>
-                <input type="text" id="location" name="location" placeholder="e.g. Liverpool, Manchester">
-              </div>
-              <div class="form-group">
-                <label for="num-sites">Number of sites</label>
-                <select id="num-sites" name="num-sites">
-                  <option value="">Please select</option>
-                  <option>1</option>
-                  <option>2–5</option>
-                  <option>6–10</option>
-                  <option>10+</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="property-type">Property type</label>
-                <select id="property-type" name="property-type">
-                  <option value="">Please select</option>
-                  <option>Office</option>
-                  <option>Warehouse / Logistics</option>
-                  <option>Industrial / Manufacturing</option>
-                  <option>Retail / Hospitality</option>
-                  <option>Mixed use</option>
-                  <option>Other commercial</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="approx-size">Approximate size</label>
-                <select id="approx-size" name="approx-size">
-                  <option value="">Please select</option>
-                  <option>Under 2,500 sq ft</option>
-                  <option>2,500–10,000 sq ft</option>
-                  <option>10,000–50,000 sq ft</option>
-                  <option>50,000+ sq ft</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-section-title">What You're Looking For</div>
-            <div class="form-group">
-              <label>Services of interest (tick all that apply)</label>
-              <div class="checkboxes" style="margin-top:8px">
-                <label class="checkbox-item"><input type="checkbox" name="service[]" value="Outsourced FM"> Outsourced FM</label>
-                <label class="checkbox-item"><input type="checkbox" name="service[]" value="Hard Services"> Hard Services</label>
-                <label class="checkbox-item"><input type="checkbox" name="service[]" value="Soft Services"> Soft Services</label>
-                <label class="checkbox-item"><input type="checkbox" name="service[]" value="Compliance Audit"> Compliance Audit</label>
-                <label class="checkbox-item"><input type="checkbox" name="service[]" value="Interim FM"> Interim FM</label>
-                <label class="checkbox-item"><input type="checkbox" name="service[]" value="Procurement"> Procurement / Retender</label>
-              </div>
-            </div>
-            <div class="form-row" style="margin-top:16px">
-              <div class="form-group">
-                <label for="package-interest">Package interest</label>
-                <select id="package-interest" name="package-interest">
-                  <option value="">Not sure yet</option>
-                  <option>Essential (£695/month)</option>
-                  <option>Professional (£1,495/month)</option>
-                  <option>Enterprise (£2,495/month)</option>
-                  <option>Multi-Site (from £5,000/month)</option>
-                  <option>One-off consultancy</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="current-fm">Current FM situation</label>
-                <select id="current-fm" name="current-fm">
-                  <option value="">Please select</option>
-                  <option>No FM in place</option>
-                  <option>Managing in-house</option>
-                  <option>Existing FM provider</option>
-                  <option>FM manager recently left</option>
-                  <option>New building / acquisition</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group" style="margin-top:16px">
-              <label for="message">Anything else you'd like us to know?</label>
-              <textarea id="message" name="message" rows="4" placeholder="Tell us about your current FM situation, any specific concerns or what's prompted you to get in touch."></textarea>
-            </div>
-            <div id="form-status" style="display:none;padding:12px 16px;border-radius:6px;margin-top:16px;font-weight:500"></div>
-            <button type="submit" class="btn" style="margin-top:20px;font-size:1rem;padding:14px 32px" id="submitBtn">Send Request</button>
-          </form>
+</section>
+
+<section style="padding-top:0">
+  <div class="container">
+    <div class="quote-wrap">
+
+      <!-- Progress -->
+      <div class="progress-bar" role="list" aria-label="Form progress">
+        <div class="prog-step active" id="prog-1" role="listitem">
+          <div class="prog-num"><span>1</span></div>
+          <div class="prog-label">Your Premises</div>
         </div>
-        <div>
-          <div style="position:sticky;top:100px">
-            <h3 style="margin-bottom:16px">Our Packages</h3>
-            <div class="pkg-mini"><h4>Essential</h4><span>£695/month</span><p style="font-size:.85rem;color:var(--muted);margin:4px 0 0">1 day/month on-site. Compliance monitoring, contractor coordination, monthly report.</p></div>
-            <div class="pkg-mini" style="border-color:var(--accent)"><h4>Professional ⭐</h4><span>£1,495/month</span><p style="font-size:.85rem;color:var(--muted);margin:4px 0 0">2 days/month. Full PPM management, soft services, budget management, tenant liaison.</p></div>
-            <div class="pkg-mini"><h4>Enterprise</h4><span>£2,495/month</span><p style="font-size:.85rem;color:var(--muted);margin:4px 0 0">4 days/month. Full FM management, procurement support, board-level reporting.</p></div>
-            <div class="pkg-mini"><h4>Multi-Site</h4><span>From £5,000/month</span><p style="font-size:.85rem;color:var(--muted);margin:4px 0 0">Multiple locations. Consolidated compliance, consistent standards, estate reporting.</p></div>
-            <div style="margin-top:24px;padding:16px;background:var(--navy);border-radius:8px;color:#fff">
-              <h4 style="color:#fff;margin:0 0 8px">What Happens Next</h4>
-              <ol style="color:rgba(255,255,255,.8);font-size:.9rem;padding-left:16px;margin:0;line-height:1.8">
-                <li>We review your enquiry</li>
-                <li>We may call to clarify details</li>
-                <li>Written proposal within 2 working days</li>
-                <li>No obligation to proceed</li>
-              </ol>
-            </div>
-            <div style="margin-top:16px;text-align:center">
-              <p style="color:var(--muted);font-size:.9rem;margin-bottom:8px">Or call us directly:</p>
-              <a href="tel:+447944308462" class="btn" style="display:block;text-align:center">07944 308462</a>
-            </div>
-          </div>
+        <div class="prog-step" id="prog-2" role="listitem">
+          <div class="prog-num"><span>2</span></div>
+          <div class="prog-label">Services Needed</div>
+        </div>
+        <div class="prog-step" id="prog-3" role="listitem">
+          <div class="prog-num"><span>3</span></div>
+          <div class="prog-label">Contact Details</div>
         </div>
       </div>
-    </div>
-  </section>
-</main>
+
+      <!-- Hidden honeypot -->
+      <p style="display:none" aria-hidden="true"><input name="bot-field" id="bot-field" tabindex="-1" autocomplete="off"></p>
+
+      <!-- STEP 1: Premises -->
+      <div class="form-panel active" id="panel-1" role="region" aria-labelledby="step1-title">
+        <h2 id="step1-title">Tell us about your premises</h2>
+        <p class="panel-desc">Help us understand your site so we can give you a relevant quote.</p>
+
+        <div class="field-group">
+          <label for="sector">Industry / Sector <span class="opt">(required)</span></label>
+          <select id="sector" name="sector" required aria-required="true">
+            <option value="">— Select your sector —</option>
+            <optgroup label="Commercial &amp; Industrial">
+              <option value="Commercial Offices">Commercial Offices</option>
+              <option value="Retail &amp; Hospitality Premises">Retail &amp; Hospitality Premises</option>
+              <option value="Warehousing &amp; Logistics">Warehousing &amp; Logistics</option>
+              <option value="Industrial Premises">Industrial Premises</option>
+              <option value="Commercial Landlords">Commercial Landlords</option>
+              <option value="Managing Agents">Managing Agents</option>
+              <option value="Multi-Site Businesses">Multi-Site Businesses</option>
+              <option value="SMEs">SMEs &amp; Small Businesses</option>
+            </optgroup>
+            <optgroup label="Education &amp; Community">
+              <option value="Schools &amp; Academies">Schools &amp; Academies</option>
+              <option value="Multi-Academy Trusts">Multi-Academy Trusts</option>
+              <option value="Nurseries &amp; Early Years">Nurseries &amp; Early Years</option>
+              <option value="Community Centres">Community Centres</option>
+              <option value="Sports Clubs">Sports Clubs &amp; Recreation</option>
+              <option value="Charities &amp; Third Sector">Charities &amp; Third Sector</option>
+              <option value="Faith &amp; Community Venues">Faith &amp; Community Venues</option>
+              <option value="Housing Associations">Housing Associations</option>
+            </optgroup>
+            <optgroup label="Hospitality, Leisure &amp; Care">
+              <option value="Care Homes">Care Homes &amp; Residential Care</option>
+              <option value="Independent Hotels">Independent Hotels</option>
+              <option value="Independent Restaurants">Independent Restaurants</option>
+              <option value="Gyms &amp; Leisure">Gyms &amp; Leisure Facilities</option>
+            </optgroup>
+            <option value="Other">Other / Not Listed</option>
+          </select>
+          <div class="field-error" id="sector-error">Please select your sector.</div>
+        </div>
+
+        <!-- Sector-specific hint -->
+        <div class="sector-hint" id="sector-hint"></div>
+
+        <!-- Sector-specific extras -->
+        <div class="sector-extras" id="extras-schools">
+          <div class="field-group">
+            <label for="term-dates">Do maintenance works need coordinating around term dates? <span class="opt">(optional)</span></label>
+            <select id="term-dates" name="termDates">
+              <option value="">— Select —</option>
+              <option value="Yes - holiday periods only">Yes — holiday periods only</option>
+              <option value="Yes - but some term-time access is possible">Yes — but some term-time access is possible</option>
+              <option value="No - flexible access">No — flexible access</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sector-extras" id="extras-care">
+          <div class="field-group">
+            <label for="cqc-registered">Is the home CQC registered? <span class="opt">(optional)</span></label>
+            <select id="cqc-registered" name="cqcRegistered">
+              <option value="">— Select —</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+              <option value="Registration pending">Registration pending</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sector-extras" id="extras-housing">
+          <div class="field-group">
+            <label for="rp-registered">Is the organisation a Registered Provider of social housing? <span class="opt">(optional)</span></label>
+            <select id="rp-registered" name="rpRegistered">
+              <option value="">— Select —</option>
+              <option value="Yes - Registered Provider">Yes — Registered Provider</option>
+              <option value="No - private landlord / ALMO">No — private landlord / ALMO</option>
+              <option value="Not sure">Not sure</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="num-sites">Number of sites <span class="opt">(required)</span></label>
+            <select id="num-sites" name="numSites" required aria-required="true">
+              <option value="">— Select —</option>
+              <option value="1">1 site</option>
+              <option value="2-5">2–5 sites</option>
+              <option value="6-10">6–10 sites</option>
+              <option value="11-20">11–20 sites</option>
+              <option value="20+">20+ sites</option>
+            </select>
+            <div class="field-error" id="num-sites-error">Please select number of sites.</div>
+          </div>
+          <div class="field-group">
+            <label for="location">Site postcode / location <span class="opt">(required)</span></label>
+            <input type="text" id="location" name="location" placeholder="e.g. Liverpool, L1" required aria-required="true">
+            <div class="field-error" id="location-error">Please enter your site location.</div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="property-type">Property type <span class="opt">(optional)</span></label>
+            <select id="property-type" name="propertyType">
+              <option value="">— Select —</option>
+              <option value="Office / commercial">Office / commercial</option>
+              <option value="Industrial / warehouse">Industrial / warehouse</option>
+              <option value="Retail premises">Retail premises</option>
+              <option value="School / academy">School / academy</option>
+              <option value="Care / residential">Care / residential</option>
+              <option value="Community / leisure">Community / leisure</option>
+              <option value="Mixed use">Mixed use</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="approx-size">Approximate size <span class="opt">(optional)</span></label>
+            <select id="approx-size" name="approxSize">
+              <option value="">— Select —</option>
+              <option value="Under 500 sq m">Under 500 sq m</option>
+              <option value="500–2,000 sq m">500–2,000 sq m</option>
+              <option value="2,000–5,000 sq m">2,000–5,000 sq m</option>
+              <option value="5,000–10,000 sq m">5,000–10,000 sq m</option>
+              <option value="Over 10,000 sq m">Over 10,000 sq m</option>
+              <option value="Not sure">Not sure</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="current-fm">Current facilities management arrangement <span class="opt">(optional)</span></label>
+          <select id="current-fm" name="currentFm">
+            <option value="">— Select —</option>
+            <option value="No formal FM in place">No formal FM in place</option>
+            <option value="Managed in-house">Managed in-house</option>
+            <option value="Outsourced to FM provider">Outsourced to FM provider</option>
+            <option value="Mix of in-house and outsourced">Mix of in-house and outsourced</option>
+            <option value="Individual contractors only">Individual contractors only</option>
+          </select>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-next" onclick="goToStep(2)" type="button">Continue <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Services -->
+      <div class="form-panel" id="panel-2" role="region" aria-labelledby="step2-title">
+        <h2 id="step2-title">Which services do you need?</h2>
+        <p class="panel-desc">Select all that apply — this helps us prepare a relevant response.</p>
+
+        <div class="field-group">
+          <label>Services required <span class="opt">(select all that apply)</span></label>
+          <div class="service-grid" role="group" aria-label="Services required">
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Outsourced Facilities Management"> <span>Outsourced Facilities Management</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Managed Facilities Services"> <span>Managed Facilities Services</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Hard Services / Technical Management"> <span>Hard Services / Technical Management</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Soft Services Management"> <span>Soft Services Management</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Planned Maintenance Coordination"> <span>Planned Maintenance Coordination</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Reactive Maintenance Coordination"> <span>Reactive Maintenance Coordination</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Contractor &amp; Supplier Management"> <span>Contractor &amp; Supplier Management</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Commercial Cleaning Management"> <span>Commercial Cleaning Management</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Grounds Maintenance Coordination"> <span>Grounds Maintenance Coordination</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Compliance Administration &amp; Tracking"> <span>Compliance Administration &amp; Tracking</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Facilities Audits &amp; Consultancy"> <span>Facilities Audits &amp; Consultancy</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Procurement &amp; Cost Optimisation"> <span>Procurement &amp; Cost Optimisation</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Interim Facilities Management"> <span>Interim Facilities Management</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Mobilisation &amp; Transition Support"> <span>Mobilisation &amp; Transition Support</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Multi-Site FM Management"> <span>Multi-Site FM Management</span>
+            </label>
+            <label class="service-check">
+              <input type="checkbox" name="services" value="Other / Not Sure"> <span>Other / Not Sure</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group" style="margin-top:28px">
+          <label>Preferred service arrangement <span class="opt">(optional — indicative pricing, subject to assessment)</span></label>
+          <div class="package-cards" role="group" aria-label="Preferred package">
+            <label class="pkg-card">
+              <input type="radio" name="packageInterest" value="Essential — from £695/month">
+              <div class="pkg-card-text">
+                <strong>Essential</strong>
+                <span>from £695/month</span>
+              </div>
+            </label>
+            <label class="pkg-card">
+              <input type="radio" name="packageInterest" value="Professional — from £1,495/month">
+              <div class="pkg-card-text">
+                <strong>Professional</strong>
+                <span>from £1,495/month</span>
+              </div>
+            </label>
+            <label class="pkg-card">
+              <input type="radio" name="packageInterest" value="Enterprise — from £2,495/month">
+              <div class="pkg-card-text">
+                <strong>Enterprise</strong>
+                <span>from £2,495/month</span>
+              </div>
+            </label>
+            <label class="pkg-card">
+              <input type="radio" name="packageInterest" value="Multi-Site FM — from £5,000/month">
+              <div class="pkg-card-text">
+                <strong>Multi-Site FM</strong>
+                <span>from £5,000/month</span>
+              </div>
+            </label>
+            <label class="pkg-card">
+              <input type="radio" name="packageInterest" value="One-off consultancy">
+              <div class="pkg-card-text">
+                <strong>One-off Consultancy</strong>
+                <span>Audit, review or project</span>
+              </div>
+            </label>
+            <label class="pkg-card">
+              <input type="radio" name="packageInterest" value="Not sure — please advise">
+              <div class="pkg-card-text">
+                <strong>Not Sure</strong>
+                <span>Please advise</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-row" style="margin-top:20px">
+          <div class="field-group">
+            <label for="budget">Approximate monthly budget <span class="opt">(optional)</span></label>
+            <select id="budget" name="budget">
+              <option value="">— Select —</option>
+              <option value="Under £500/month">Under £500/month</option>
+              <option value="£500–£1,000/month">£500–£1,000/month</option>
+              <option value="£1,000–£2,500/month">£1,000–£2,500/month</option>
+              <option value="£2,500–£5,000/month">£2,500–£5,000/month</option>
+              <option value="Over £5,000/month">Over £5,000/month</option>
+              <option value="Not sure">Not sure</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="timeframe">Desired start date / timeframe <span class="opt">(optional)</span></label>
+            <select id="timeframe" name="timeframe">
+              <option value="">— Select —</option>
+              <option value="As soon as possible">As soon as possible</option>
+              <option value="Within 1 month">Within 1 month</option>
+              <option value="1–3 months">1–3 months</option>
+              <option value="3–6 months">3–6 months</option>
+              <option value="Planning ahead (6+ months)">Planning ahead (6+ months)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="existing-contractors">Existing contractor arrangements <span class="opt">(optional)</span></label>
+          <input type="text" id="existing-contractors" name="existingContractors" placeholder="e.g. have a cleaning contract, no current maintenance contractor">
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-back" onclick="goToStep(1)" type="button"><span aria-hidden="true">←</span> Back</button>
+          <button class="btn-next" onclick="goToStep(3)" type="button">Continue <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Contact -->
+      <div class="form-panel" id="panel-3" role="region" aria-labelledby="step3-title">
+        <h2 id="step3-title">How can we contact you?</h2>
+        <p class="panel-desc">Your details are only used to respond to your enquiry. We aim to reply within two working days.</p>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="name">Full name <span class="opt">(required)</span></label>
+            <input type="text" id="name" name="name" placeholder="Your full name" required aria-required="true" autocomplete="name">
+            <div class="field-error" id="name-error">Please enter your name.</div>
+          </div>
+          <div class="field-group">
+            <label for="organisation">Organisation <span class="opt">(required)</span></label>
+            <input type="text" id="organisation" name="organisation" placeholder="Company / organisation name" required aria-required="true" autocomplete="organization">
+            <div class="field-error" id="organisation-error">Please enter your organisation.</div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="email">Business email <span class="opt">(required)</span></label>
+            <input type="email" id="email" name="email" placeholder="you@organisation.com" required aria-required="true" autocomplete="email">
+            <div class="field-error" id="email-error">Please enter a valid email address.</div>
+          </div>
+          <div class="field-group">
+            <label for="phone">Telephone <span class="opt">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="07xxx xxxxxx" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="job-title">Job title <span class="opt">(optional)</span></label>
+          <input type="text" id="job-title" name="jobTitle" placeholder="e.g. Operations Manager" autocomplete="organization-title">
+        </div>
+
+        <div class="field-group">
+          <label for="challenges">Main operational challenges <span class="opt">(optional)</span></label>
+          <textarea id="challenges" name="challenges" rows="3" placeholder="Briefly describe your main FM challenges or what you're looking to improve..."></textarea>
+        </div>
+
+        <div class="field-group">
+          <label for="additional-info">Additional information <span class="opt">(optional)</span></label>
+          <textarea id="additional-info" name="additionalInfo" rows="3" placeholder="Anything else you'd like us to know before we get in touch..."></textarea>
+        </div>
+
+        <div class="field-group" style="margin-top:8px">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-weight:400">
+            <input type="checkbox" id="marketing-consent" name="marketingConsent" value="yes" style="min-width:18px;width:18px;height:18px;margin-top:2px;accent-color:var(--accent)">
+            <span style="font-size:.88rem;color:var(--muted)">I'm happy to receive occasional updates and FM insights from AB Facilities Consultants by email. You can unsubscribe at any time. <span style="color:var(--navy);font-weight:600">(Optional)</span></span>
+          </label>
+        </div>
+
+        <p class="privacy-note">
+          By submitting this form you agree to AB Facilities Consultants contacting you about your enquiry. We will not share your details with third parties. See our <a href="/privacy/">Privacy Policy</a>. Package prices shown are indicative and subject to site assessment — submitting this form does not create any binding quotation or service commitment.
+        </p>
+
+        <div class="form-nav">
+          <button class="btn-back" onclick="goToStep(2)" type="button"><span aria-hidden="true">←</span> Back</button>
+          <button class="btn-submit" id="submit-btn" type="button" onclick="submitForm()">Submit Enquiry</button>
+        </div>
+        <div class="form-status" id="form-status" role="alert" aria-live="polite"></div>
+      </div>
+
+      <!-- Success state -->
+      <div class="form-success" id="form-success" role="alert">
+        <div class="success-icon" aria-hidden="true">✓</div>
+        <h2>Enquiry Received</h2>
+        <p>Thank you — we've received your quote request and will come back to you within two working days.</p>
+        <p style="font-size:.9rem">In the meantime, feel free to call <a href="tel:+447944308462">07944 308462</a> or email <a href="mailto:contact@abfacilities.com">contact@abfacilities.com</a>.</p>
+        <a href="/" class="btn" style="margin-top:8px">Return to Home</a>
+      </div>
+
+    </div><!-- .quote-wrap -->
+  </div>
+</section>
+
 <footer class="site">
   <div class="container grid">
-    <div><h4>AB Facilities Consultants</h4><p>Practical facilities management consultancy across the North West.</p></div>
-    <div><h4>Services</h4><a href="/outsourced-fm/">Outsourced FM</a><a href="/services/hard-services/">Hard Services</a><a href="/services/soft-services/">Soft Services</a><a href="/consultancy/">FM Consultancy</a></div>
-    <div><h4>Company</h4><a href="/industries/">Sectors We Serve</a><a href="/about/">About</a><a href="/contact/">Contact</a><a href="mailto:contact@abfacilities.com">contact@abfacilities.com</a><a href="tel:+447944308462">07944 308462</a></div>
+    <div><h4>AB Facilities Consultants</h4><p>Practical facilities management consultancy for businesses, property owners, schools and community organisations across the North West.</p></div>
+    <div><h4>Services</h4><a href="/outsourced-fm/">Outsourced FM</a><a href="/services/hard-services/">Hard Services</a><a href="/services/soft-services/">Soft Services</a><a href="/consultancy/">FM Consultancy</a><a href="/services/compliance-audits/">Compliance Audits</a><a href="/services/health-safety-consultancy/">Health &amp; Safety</a><a href="/services/interim-fm/">Interim FM</a><a href="/services/procurement-tenders/">Procurement &amp; Tenders</a></div>
+    <div><h4>Company</h4><a href="/industries/">Industries We Serve</a><a href="/areas/">Areas We Cover</a><a href="/about/">About Adam Byrne</a><a href="/blog/">Blog</a><a href="/contact/">Contact</a><a href="mailto:contact@abfacilities.com">contact@abfacilities.com</a><a href="tel:+447944308462">07944 308462</a></div>
   </div>
   <div class="container bottom">&copy; 2026 AB Facilities Consultants &middot; Liverpool &amp; North West &middot; <a href="/privacy/" style="display:inline;color:#8496ab">Privacy Policy</a> &middot; <a href="/terms/" style="display:inline;color:#8496ab">Terms &amp; Conditions</a></div>
 </footer>
+
+<a href="https://wa.me/447944308462" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp AB Facilities Consultants"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.14c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36l.56.01c.18.01.42-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.14.14-.29.29-.13.58.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.63-.08.17-.2.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg></a>
+
 <script src="/assets/nav.js" defer></script>
 <script>
-document.getElementById('quoteForm').addEventListener('submit',async function(e){
-  e.preventDefault();
-  const btn=document.getElementById('submitBtn');
-  const status=document.getElementById('form-status');
-  const f=e.target;
-  if(f['bot-field'].value){status.style.display='block';status.style.background='#d4edda';status.textContent='Thank you.';return;}
-  const fname=f.fname.value.trim();
-  const lname=f.lname.value.trim();
-  const email=f.email.value.trim();
-  const company=f.company.value.trim();
-  if(!fname||!lname||!email||!company){
-    status.style.display='block';status.style.background='#f8d7da';status.style.color='#721c24';
-    status.textContent='Please fill in all required fields.';return;
-  }
-  const services=Array.from(f.querySelectorAll('input[name="service[]"]:checked')).map(c=>c.value);
-  btn.disabled=true;btn.textContent='Sending…';
-  try{
-    const res=await fetch('/api/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      name:fname+' '+lname,email,phone:f.phone.value,company,role:f.role.value,
-      location:f.location.value,numSites:f['num-sites'].value,propertyType:f['property-type'].value,
-      approxSize:f['approx-size'].value,services:services.join(', '),packageInterest:f['package-interest'].value,
-      currentFm:f['current-fm'].value,message:f.message.value,'bot-field':f['bot-field'].value
-    })});
-    if(res.ok){
-      status.style.display='block';status.style.background='#d4edda';status.style.color='#155724';
-      status.textContent='Thank you — we\'ll be in touch within two working days.';
-      f.reset();
+(function () {
+  // ── State ──
+  var currentStep = 1;
+  var formData = {};
+
+  // ── Sector hints ──
+  var sectorHints = {
+    'Schools &amp; Academies': 'Schools and academies carry significant statutory compliance obligations — fire safety, legionella, gas and electrical safety — plus the added complexity of coordinating works around term dates.',
+    'Multi-Academy Trusts': 'Multi-academy trusts benefit from centralised FM oversight across all sites, with consistent compliance reporting for trust boards and coordinated PPM scheduling.',
+    'Care Homes &amp; Residential Care': 'Care homes carry some of the most demanding premises safety obligations — CQC compliance, legionella management and rigorous contractor documentation are all essential.',
+    'Housing Associations': 'Following Awaab\'s Law and the Social Housing Act 2023, registered providers face increased regulatory scrutiny of their maintenance and compliance processes.',
+    'Faith &amp; Community Venues': 'Many faith buildings are listed structures requiring heritage contractors. We coordinate appropriate specialist works alongside standard statutory compliance.',
+    'Multi-Site Businesses': 'Multi-site FM management provides a single point of contact across all locations — consistent compliance standards, coordinated PPM and central reporting.'
+  };
+
+  // ── Sector extra field mapping ──
+  var sectorExtras = {
+    'Schools &amp; Academies': 'extras-schools',
+    'Multi-Academy Trusts': 'extras-schools',
+    'Care Homes &amp; Residential Care': 'extras-care',
+    'Housing Associations': 'extras-housing'
+  };
+
+  // ── Sector dropdown change ──
+  document.getElementById('sector').addEventListener('change', function () {
+    var val = this.value;
+    var hint = document.getElementById('sector-hint');
+
+    // Show hint
+    if (sectorHints[val]) {
+      hint.textContent = sectorHints[val];
+      hint.style.display = 'block';
     } else {
-      throw new Error('Server error');
+      hint.style.display = 'none';
     }
-  } catch(err){
-    status.style.display='block';status.style.background='#f8d7da';status.style.color='#721c24';
-    status.textContent='Something went wrong. Please try again or call 07944 308462.';
+
+    // Show/hide sector extras
+    document.querySelectorAll('.sector-extras').forEach(function (el) { el.classList.remove('show'); });
+    if (sectorExtras[val]) {
+      document.getElementById(sectorExtras[val]).classList.add('show');
+    }
+  });
+
+  // ── Service checkbox highlight ──
+  document.querySelectorAll('.service-check input[type="checkbox"]').forEach(function (cb) {
+    cb.addEventListener('change', function () {
+      this.closest('.service-check').classList.toggle('checked', this.checked);
+    });
+  });
+
+  // ── Package radio highlight ──
+  document.querySelectorAll('.pkg-card input[type="radio"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      document.querySelectorAll('.pkg-card').forEach(function (c) { c.classList.remove('selected'); });
+      if (this.checked) this.closest('.pkg-card').classList.add('selected');
+    });
+  });
+
+  // ── Step navigation ──
+  window.goToStep = function (step) {
+    if (step > currentStep && !validateStep(currentStep)) return;
+
+    // Save data before moving
+    collectStep(currentStep);
+
+    // Update progress indicators
+    for (var i = 1; i <= 3; i++) {
+      var prog = document.getElementById('prog-' + i);
+      prog.classList.remove('active', 'done');
+      if (i < step) prog.classList.add('done');
+      else if (i === step) prog.classList.add('active');
+    }
+
+    // Show correct panel
+    document.querySelectorAll('.form-panel').forEach(function (p) { p.classList.remove('active'); });
+    document.getElementById('panel-' + step).classList.add('active');
+    currentStep = step;
+
+    // Scroll to top of form
+    document.querySelector('.progress-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  function collectStep(step) {
+    if (step === 1) {
+      formData.sector = document.getElementById('sector').value;
+      formData.numSites = document.getElementById('num-sites').value;
+      formData.location = document.getElementById('location').value;
+      formData.propertyType = document.getElementById('property-type').value;
+      formData.approxSize = document.getElementById('approx-size').value;
+      formData.currentFm = document.getElementById('current-fm').value;
+      // Sector extras
+      var termDates = document.getElementById('term-dates');
+      if (termDates) formData.termDates = termDates.value;
+      var cqc = document.getElementById('cqc-registered');
+      if (cqc) formData.cqcRegistered = cqc.value;
+      var rp = document.getElementById('rp-registered');
+      if (rp) formData.rpRegistered = rp.value;
+    } else if (step === 2) {
+      var checked = [];
+      document.querySelectorAll('input[name="services"]:checked').forEach(function (cb) { checked.push(cb.value); });
+      formData.services = checked;
+      var pkg = document.querySelector('input[name="packageInterest"]:checked');
+      formData.packageInterest = pkg ? pkg.value : '';
+      formData.budget = document.getElementById('budget').value;
+      formData.timeframe = document.getElementById('timeframe').value;
+      formData.existingContractors = document.getElementById('existing-contractors').value;
+    } else if (step === 3) {
+      formData.name = document.getElementById('name').value;
+      formData.organisation = document.getElementById('organisation').value;
+      formData.email = document.getElementById('email').value;
+      formData.phone = document.getElementById('phone').value;
+      formData.jobTitle = document.getElementById('job-title').value;
+      formData.challenges = document.getElementById('challenges').value;
+      formData.additionalInfo = document.getElementById('additional-info').value;
+      formData.marketingConsent = document.getElementById('marketing-consent').checked ? 'yes' : 'no';
+    }
   }
-  btn.disabled=false;btn.textContent='Send Request';
-});
+
+  function validateStep(step) {
+    var ok = true;
+    if (step === 1) {
+      ok = validateField('sector', 'sector-error') && ok;
+      ok = validateField('num-sites', 'num-sites-error') && ok;
+      ok = validateField('location', 'location-error') && ok;
+    } else if (step === 3) {
+      ok = validateField('name', 'name-error') && ok;
+      ok = validateField('organisation', 'organisation-error') && ok;
+      ok = validateEmailField('email', 'email-error') && ok;
+    }
+    return ok;
+  }
+
+  function validateField(id, errId) {
+    var el = document.getElementById(id);
+    var err = document.getElementById(errId);
+    if (!el.value.trim()) {
+      el.classList.add('error');
+      if (err) err.classList.add('show');
+      return false;
+    }
+    el.classList.remove('error');
+    if (err) err.classList.remove('show');
+    return true;
+  }
+
+  function validateEmailField(id, errId) {
+    var el = document.getElementById(id);
+    var err = document.getElementById(errId);
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!el.value.trim() || !re.test(el.value)) {
+      el.classList.add('error');
+      if (err) err.classList.add('show');
+      return false;
+    }
+    el.classList.remove('error');
+    if (err) err.classList.remove('show');
+    return true;
+  }
+
+  // ── Clear error on input ──
+  ['sector','num-sites','location','name','organisation','email'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', function () {
+        this.classList.remove('error');
+        var err = document.getElementById(id + '-error');
+        if (err) err.classList.remove('show');
+      });
+    }
+  });
+
+  // ── Submit ──
+  window.submitForm = function () {
+    if (!validateStep(3)) return;
+    collectStep(3);
+
+    var btn = document.getElementById('submit-btn');
+    var status = document.getElementById('form-status');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    status.textContent = '';
+    status.style.color = '';
+
+    var payload = {
+      'bot-field': document.getElementById('bot-field').value,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone || '',
+      organisation: formData.organisation,
+      jobTitle: formData.jobTitle || '',
+      sector: formData.sector,
+      numSites: formData.numSites,
+      location: formData.location,
+      propertyType: formData.propertyType || '',
+      approxSize: formData.approxSize || '',
+      currentFm: formData.currentFm || '',
+      termDates: formData.termDates || '',
+      cqcRegistered: formData.cqcRegistered || '',
+      rpRegistered: formData.rpRegistered || '',
+      services: formData.services || [],
+      packageInterest: formData.packageInterest || '',
+      budget: formData.budget || '',
+      timeframe: formData.timeframe || '',
+      existingContractors: formData.existingContractors || '',
+      challenges: formData.challenges || '',
+      additionalInfo: formData.additionalInfo || '',
+      marketingConsent: formData.marketingConsent,
+      sourcePage: window.location.href
+    };
+
+    fetch('/api/quote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
+      .then(function (result) {
+        btn.disabled = false;
+        btn.textContent = 'Submit Enquiry';
+        if (result.ok) {
+          document.querySelector('.progress-bar').style.display = 'none';
+          document.querySelectorAll('.form-panel').forEach(function (p) { p.style.display = 'none'; });
+          document.getElementById('form-success').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          status.style.color = '#c0392b';
+          status.textContent = (result.body && result.body.error) || 'Something went wrong. Please try again or call us on 07944 308462.';
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Submit Enquiry';
+        status.style.color = '#c0392b';
+        status.textContent = 'Something went wrong. Please try again or call us on 07944 308462.';
+      });
+  };
+
+  // ── URL param: sector preselection ──
+  var params = new URLSearchParams(window.location.search);
+  var sectorParam = params.get('sector');
+  if (sectorParam) {
+    var sectorMap = {
+      'schools': 'Schools &amp; Academies',
+      'schools-academies': 'Schools &amp; Academies',
+      'multi-academy-trusts': 'Multi-Academy Trusts',
+      'nurseries': 'Nurseries &amp; Early Years',
+      'community-centres': 'Community Centres',
+      'sports-clubs': 'Sports Clubs &amp; Recreation',
+      'charities': 'Charities &amp; Third Sector',
+      'faith-venues': 'Faith &amp; Community Venues',
+      'housing-associations': 'Housing Associations',
+      'care-homes': 'Care Homes &amp; Residential Care',
+      'hotels': 'Independent Hotels',
+      'restaurants': 'Independent Restaurants',
+      'gyms': 'Gyms &amp; Leisure Facilities',
+      'smes': 'SMEs &amp; Small Businesses',
+      'commercial-offices': 'Commercial Offices',
+      'retail-hospitality': 'Retail &amp; Hospitality Premises',
+      'warehousing-logistics': 'Warehousing &amp; Logistics',
+      'industrial-premises': 'Industrial Premises',
+      'commercial-landlords': 'Commercial Landlords',
+      'managing-agents': 'Managing Agents',
+      'multisite-businesses': 'Multi-Site Businesses',
+      'multi-site-businesses': 'Multi-Site Businesses'
+    };
+    var mappedSector = sectorMap[sectorParam.toLowerCase()];
+    if (mappedSector) {
+      var sel = document.getElementById('sector');
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === mappedSector) {
+          sel.value = mappedSector;
+          sel.dispatchEvent(new Event('change'));
+          break;
+        }
+      }
+    }
+  }
+
+  // ── Package URL param ──
+  var pkgParam = params.get('package');
+  if (pkgParam) {
+    var pkgMap = {
+      'essential': 'Essential — from £695/month',
+      'professional': 'Professional — from £1,495/month',
+      'enterprise': 'Enterprise — from £2,495/month',
+      'multisite': 'Multi-Site FM — from £5,000/month'
+    };
+    var mapped = pkgMap[pkgParam.toLowerCase()];
+    if (mapped) {
+      document.querySelectorAll('input[name="packageInterest"]').forEach(function (r) {
+        if (r.value === mapped) {
+          r.checked = true;
+          r.closest('.pkg-card').classList.add('selected');
+        }
+      });
+    }
+  }
+
+})();
 </script>
-<a href="https://wa.me/447944308462" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Message on WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.14c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36l.56.01c.18.01.42-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.14.14-.29.29-.13.58.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.63-.08.17-.2.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg></a>
-<button class="back-to-top" id="backToTop" aria-label="Back to top"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button>
-<script>const btn=document.getElementById('backToTop');window.addEventListener('scroll',()=>{btn.classList.toggle('visible',window.scrollY>400)});btn.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'})});</script>
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!-- AB Facilities Consultants — Sector Logo Template (stacked, navy-on-white) -->
+<!-- Replace SECTOR NAME LINE below for each variant -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320">
+  <defs>
+    <style>
+      .ab-mono { font-family: 'Georgia', 'Times New Roman', serif; fill: #0d1f3c; }
+      .wordmark-main { font-family: 'Arial', 'Helvetica Neue', sans-serif; fill: #0d1f3c; letter-spacing: 0.22em; font-weight: 700; }
+      .wordmark-sub  { font-family: 'Arial', 'Helvetica Neue', sans-serif; fill: #4a5568; letter-spacing: 0.22em; font-weight: 400; }
+      .sector-line   { font-family: 'Arial', 'Helvetica Neue', sans-serif; fill: #0e7f74; letter-spacing: 0.18em; font-weight: 700; }
+    </style>
+  </defs>
+  <!-- AB monogram -->
+  <text x="200" y="120" text-anchor="middle" font-size="110" class="ab-mono" font-style="italic">A</text>
+  <text x="230" y="120" text-anchor="start"  font-size="110" class="ab-mono" font-style="normal">B</text>
+  <!-- Teal accent line -->
+  <line x1="142" y1="135" x2="258" y2="135" stroke="#0e7f74" stroke-width="3" stroke-linecap="round"/>
+  <!-- FACILITIES -->
+  <text x="200" y="175" text-anchor="middle" font-size="28" class="wordmark-main">FACILITIES</text>
+  <!-- CONSULTANTS -->
+  <text x="200" y="202" text-anchor="middle" font-size="17" class="wordmark-sub">CONSULTANTS</text>
+  <!-- Sector divider -->
+  <line x1="142" y1="218" x2="258" y2="218" stroke="#0d1f3c" stroke-width="0.75" opacity="0.3"/>
+  <!-- SECTOR NAME — replace for each variant -->
+  <text x="200" y="245" text-anchor="middle" font-size="15" class="sector-line">SCHOOLS &amp; ACADEMIES</text>
+</svg>

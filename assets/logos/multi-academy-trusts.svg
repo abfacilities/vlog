@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" width="400" height="280">
+  <defs>
+    <style>
+      .ab { font-family: Georgia, "Times New Roman", serif; fill: #0d1f3c; }
+      .wm  { font-family: Arial, "Helvetica Neue", sans-serif; fill: #0d1f3c; letter-spacing: 0.22em; font-weight: 700; }
+      .sub { font-family: Arial, "Helvetica Neue", sans-serif; fill: #4a5568; letter-spacing: 0.22em; font-weight: 400; }
+      .sec { font-family: Arial, "Helvetica Neue", sans-serif; fill: #0e7f74; letter-spacing: 0.15em; font-weight: 700; }
+    </style>
+  </defs>
+  <!-- AB monogram -->
+  <text x="178" y="108" text-anchor="middle" font-size="100" class="ab" font-style="italic">A</text>
+  <text x="216" y="108" text-anchor="start"  font-size="100" class="ab">B</text>
+  <!-- Teal accent line -->
+  <line x1="140" y1="122" x2="260" y2="122" stroke="#0e7f74" stroke-width="3" stroke-linecap="round"/>
+  <!-- FACILITIES -->
+  <text x="200" y="158" text-anchor="middle" font-size="26" class="wm">FACILITIES</text>
+  <!-- CONSULTANTS -->
+  <text x="200" y="182" text-anchor="middle" font-size="15" class="sub">CONSULTANTS</text>
+  <!-- Thin divider -->
+  <line x1="140" y1="197" x2="260" y2="197" stroke="#0d1f3c" stroke-width="0.6" opacity="0.25"/>
+  <!-- Sector name -->
+  <text x="200" y="224" text-anchor="middle" font-size="13" class="sec">MULTI-ACADEMY TRUSTS</text>
+</svg>

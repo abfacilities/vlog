@@ -2,234 +2,497 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TCDRF3SG');</script>
 <title>Contractor Registration | AB Facilities Consultants</title>
-<meta name="description" content="Register as an approved contractor with AB Facilities Consultants. We work with specialist trades across the North West.">
+<meta name="description" content="Apply to join AB Facilities Consultants' approved contractor network across the North West. We work with specialist trades in FM, maintenance, cleaning, compliance and more.">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="canonical" href="https://www.abfacilities.com/contractors/">
 <link rel="stylesheet" href="/assets/style.css">
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TCDRF3SG');</script>
-<!-- End Google Tag Manager -->
 <style>
-.form-section-title{font-size:1.1rem;font-weight:700;color:var(--navy);margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--accent-light)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:600px){.form-row{grid-template-columns:1fr}}
-.trade-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
-@media(max-width:480px){.trade-grid{grid-template-columns:1fr}}
-.trade-item{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
-.trade-item input{width:16px;height:16px;cursor:pointer}
-.req-list{list-style:none;padding:0;margin:0}
-.req-list li{padding:8px 0;border-bottom:1px solid #e2e8f0;font-size:.9rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
-.req-list li::before{content:"✓";color:var(--accent);font-weight:700;flex-shrink:0}
+.contractor-wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 16px 64px;
+}
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 32px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent);
+}
+.field-group {
+  margin-bottom: 18px;
+}
+.field-group label {
+  display: block;
+  font-weight: 600;
+  font-size: .88rem;
+  margin-bottom: 5px;
+  color: var(--navy);
+}
+.field-group label .opt {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: .78rem;
+}
+.field-group input,
+.field-group select,
+.field-group textarea {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: .95rem;
+  font-family: inherit;
+  color: var(--navy);
+  background: #fff;
+  box-sizing: border-box;
+  transition: border-color .15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(14,127,116,.1);
+}
+.field-group input.error,
+.field-group select.error,
+.field-group textarea.error {
+  border-color: #c0392b;
+}
+.field-error {
+  color: #c0392b;
+  font-size: .78rem;
+  margin-top: 4px;
+  display: none;
+}
+.field-error.show { display: block; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 540px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+
+/* Trade checkboxes */
+.trade-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+@media (max-width: 540px) {
+  .trade-grid { grid-template-columns: 1fr; }
+}
+.trade-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  user-select: none;
+  font-size: .85rem;
+  color: var(--navy);
+  font-weight: 500;
+}
+.trade-check:hover { border-color: var(--accent); background: var(--accent-light); }
+.trade-check.checked { border-color: var(--accent); background: var(--accent-light); }
+.trade-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  margin-top: 1px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.notice-box {
+  background: #fef9c3;
+  border-left: 3px solid #ca8a04;
+  border-radius: 0 6px 6px 0;
+  padding: 12px 16px;
+  font-size: .88rem;
+  color: #713f12;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.form-submit-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+  margin-top: 8px;
+}
+.form-submit-btn:hover { background: var(--accent-dark); }
+.form-submit-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.form-status {
+  margin-top: 14px;
+  font-size: .9rem;
+  min-height: 1.2em;
+}
+
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 48px 24px;
+}
+.form-success .success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 24px;
+}
+.form-success h2 { color: var(--navy); margin-bottom: 10px; }
+.form-success p { color: var(--muted); max-width: 440px; margin: 0 auto 20px; }
+
+.privacy-note {
+  font-size: .78rem;
+  color: var(--muted);
+  margin-top: 16px;
+  line-height: 1.5;
+}
 </style>
-<a class="skip-link" href="#main">Skip to content</a>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TCDRF3SG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
 <header class="site">
   <div class="container nav-row">
     <a href="/" class="logo"><img src="/assets/logo-white.png" alt="AB Facilities Consultants" style="height:44px;display:block"></a>
-    <nav class="main" id="site-nav">
-      <a href="/">Home</a><a href="/services/">Services</a><a href="/packages/">Packages</a>
-      <a href="/industries/">Sectors</a><a href="/about/">About</a>
-      <a href="/blog/">Blog</a><a href="/contact/">Contact</a>
-    </nav>
+    <nav class="main" id="site-nav"><a href="/">Home</a><a href="/services/">Services</a><a href="/packages/">Packages</a><a href="/industries/">Industries</a><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/contact/">Contact</a></nav>
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
-    <div class="nav-cta">
-      <a class="phone" href="tel:+447944308462">07944 308462</a>
-      <a class="btn" href="/contact/">Get a Quote</a>
-    </div>
+    <div class="nav-cta"><a class="phone" href="tel:+447944308462">07944 308462</a><a class="btn" href="/quote/">Get a Quote</a></div>
   </div>
 </header>
-<main id="main">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="/">Home</a> › Contractor Registration</div>
-      <div class="section-eyebrow">Work With Us</div>
-      <h1>Contractor Registration</h1>
-      <p style="max-width:680px;font-size:1.1rem;color:var(--muted)">We're always looking for reliable, qualified contractors across the North West. Register your business and we'll be in touch when suitable work arises.</p>
-    </div>
+
+<section class="page-hero" style="padding-bottom:32px">
+  <div class="container">
+    <div class="section-eyebrow">Join Our Network</div>
+    <h1>Contractor Registration</h1>
+    <p style="color:var(--muted);max-width:580px">We work with reliable, qualified contractors across the North West. Complete the form below and we'll review your application.</p>
   </div>
-  <section>
-    <div class="container">
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:48px;align-items:start">
-        <div>
-          <form id="contractorForm" novalidate>
-            <input type="text" name="bot-field" style="display:none" tabindex="-1" autocomplete="off">
-            <div class="form-section-title">Business Details</div>
-            <div class="form-group">
-              <label for="business-name">Business name *</label>
-              <input type="text" id="business-name" name="businessName" required>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="contact-name">Contact name *</label>
-                <input type="text" id="contact-name" name="contactName" required>
-              </div>
-              <div class="form-group">
-                <label for="contact-role">Role / position</label>
-                <input type="text" id="contact-role" name="contactRole" placeholder="e.g. Director, Contracts Manager">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="c-email">Email address *</label>
-                <input type="email" id="c-email" name="email" required>
-              </div>
-              <div class="form-group">
-                <label for="c-phone">Phone number *</label>
-                <input type="tel" id="c-phone" name="phone" required>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="c-location">Based in (town/city)</label>
-                <input type="text" id="c-location" name="location" placeholder="e.g. Liverpool, Warrington">
-              </div>
-              <div class="form-group">
-                <label for="c-coverage">Coverage area</label>
-                <input type="text" id="c-coverage" name="coverage" placeholder="e.g. Merseyside, Cheshire, NW England">
-              </div>
-            </div>
-            <div class="form-section-title">Trade Coverage</div>
-            <p style="color:var(--muted);font-size:.95rem;margin-bottom:8px">Select all trades your business covers:</p>
-            <div class="trade-grid">
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Electrical"> Electrical</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Mechanical / HVAC"> Mechanical / HVAC</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Gas / Heating"> Gas / Heating</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Plumbing / Water Hygiene"> Plumbing / Water Hygiene</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Fire Safety Systems"> Fire Safety Systems</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Access Control / CCTV"> Access Control / CCTV</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Lifts / LOLER"> Lifts / LOLER</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Building Fabric / Maintenance"> Building Fabric / Maintenance</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Cleaning"> Cleaning</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Grounds Maintenance"> Grounds Maintenance</label>
-              <label class="trade-item"><input type="checkbox" name="trade[]" value="Pest Control"> Pest Control</label>
-            </div>
-            <div class="form-group" style="margin-top:16px">
-              <label for="other-trade">Other trades (if not listed above)</label>
-              <input type="text" id="other-trade" name="otherTrade" placeholder="Describe any other specialist trades">
-            </div>
-            <div class="form-section-title">Insurance &amp; Compliance</div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="pl-cover">Public liability cover</label>
-                <select id="pl-cover" name="plCover">
-                  <option value="">Please select</option>
-                  <option>£1m</option>
-                  <option>£2m</option>
-                  <option>£5m</option>
-                  <option>£10m+</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="el-cover">Employer's liability cover</label>
-                <select id="el-cover" name="elCover">
-                  <option value="">Please select</option>
-                  <option>£5m</option>
-                  <option>£10m</option>
-                  <option>N/A (sole trader, no employees)</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="accreditation">Accreditations / registrations</label>
-                <input type="text" id="accreditation" name="accreditation" placeholder="e.g. NICEIC, Gas Safe, F-Gas, BAFE">
-              </div>
-              <div class="form-group">
-                <label for="workers">Approximate workforce size</label>
-                <select id="workers" name="workers">
-                  <option value="">Please select</option>
-                  <option>Sole trader</option>
-                  <option>2–5 employees</option>
-                  <option>6–20 employees</option>
-                  <option>20+ employees</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-section-title">About Your Business</div>
-            <div class="form-group">
-              <label for="c-message">Tell us about your business *</label>
-              <textarea id="c-message" name="message" rows="4" required placeholder="Briefly describe your business, the types of work you specialise in and any relevant experience with commercial FM clients."></textarea>
-            </div>
-            <div id="form-status" style="display:none;padding:12px 16px;border-radius:6px;margin-top:16px;font-weight:500"></div>
-            <button type="submit" class="btn" style="margin-top:20px;font-size:1rem;padding:14px 32px" id="submitBtn">Submit Registration</button>
-          </form>
-        </div>
-        <div>
-          <div style="position:sticky;top:100px">
-            <h3>What We Look For</h3>
-            <ul class="req-list">
-              <li>Valid public liability insurance (minimum £1m)</li>
-              <li>Relevant trade accreditations (NICEIC, Gas Safe, BAFE etc.)</li>
-              <li>Experience with commercial FM clients</li>
-              <li>Responsive and reliable — reactive jobs need fast response</li>
-              <li>Competitive, transparent pricing</li>
-              <li>Willing to provide job reports and certification</li>
-              <li>North West coverage (Merseyside, Cheshire, Greater Manchester)</li>
-            </ul>
-            <h3 style="margin-top:32px">Trades We Need</h3>
-            <p style="color:var(--muted);font-size:.9rem">We're currently looking for contractors across all FM trades — particularly electrical, M&amp;E, fire safety, water hygiene (L8) and planned maintenance.</p>
-            <h3 style="margin-top:24px">What to Expect</h3>
-            <p style="color:var(--muted);font-size:.9rem">We'll review your registration and be in touch if there's a potential fit. We don't guarantee work, but we do work with our approved contractors regularly and aim to build long-term relationships.</p>
-            <div style="margin-top:24px;padding:16px;background:var(--navy);border-radius:8px;color:#fff">
-              <strong style="color:#fff">Questions?</strong>
-              <p style="color:rgba(255,255,255,.75);font-size:.9rem;margin:8px 0 0">Call Adam directly on <a href="tel:+447944308462" style="color:var(--accent)">07944 308462</a> or email <a href="mailto:contact@abfacilities.com" style="color:var(--accent)">contact@abfacilities.com</a></p>
-            </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="container">
+    <div class="contractor-wrap">
+
+      <div class="notice-box">
+        <strong>Application — not an approval.</strong> Submitting this form begins a review process. All applications are assessed before anyone is added to our approved supplier list. We will be in touch once your application has been reviewed.
+      </div>
+
+      <!-- Honeypot -->
+      <p style="display:none" aria-hidden="true"><input name="bot-field" id="bot-field" tabindex="-1" autocomplete="off"></p>
+
+      <form id="contractor-form" novalidate>
+
+        <div class="section-title">Company Details</div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="company-name">Company / trading name <span class="opt">(required)</span></label>
+            <input type="text" id="company-name" name="companyName" required aria-required="true" autocomplete="organization">
+            <div class="field-error" id="company-name-error">Please enter your company name.</div>
+          </div>
+          <div class="field-group">
+            <label for="contact-name">Main contact name <span class="opt">(required)</span></label>
+            <input type="text" id="contact-name" name="contactName" required aria-required="true" autocomplete="name">
+            <div class="field-error" id="contact-name-error">Please enter a contact name.</div>
           </div>
         </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="email">Email address <span class="opt">(required)</span></label>
+            <input type="email" id="email" name="email" required aria-required="true" autocomplete="email">
+            <div class="field-error" id="email-error">Please enter a valid email address.</div>
+          </div>
+          <div class="field-group">
+            <label for="phone">Telephone <span class="opt">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="section-title">Service Disciplines</div>
+
+        <div class="field-group">
+          <label>Select all that apply <span class="opt">(required — at least one)</span></label>
+          <div class="trade-grid" id="trades-grid" role="group" aria-label="Service disciplines">
+            <label class="trade-check"><input type="checkbox" name="trades" value="Electrical"> Electrical</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Gas / Heating / Boilers"> Gas / Heating / Boilers</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Plumbing"> Plumbing</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Air Conditioning / HVAC"> Air Conditioning / HVAC</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Commercial Cleaning"> Commercial Cleaning</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Grounds Maintenance"> Grounds Maintenance</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Building Fabric / Maintenance"> Building Fabric / Maintenance</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Roofing"> Roofing</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Painting &amp; Decorating"> Painting &amp; Decorating</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Flooring"> Flooring</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Fire Safety (FRA, Fire Suppression)"> Fire Safety</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Security Systems"> Security Systems</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Pest Control"> Pest Control</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Waste Management"> Waste Management</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Window Cleaning"> Window Cleaning</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Legionella / Water Treatment"> Legionella / Water Treatment</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Asbestos Management"> Asbestos Management</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="PAT Testing"> PAT Testing</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Lift / Escalator Maintenance"> Lift / Escalator Maintenance</label>
+            <label class="trade-check"><input type="checkbox" name="trades" value="Other"> Other</label>
+          </div>
+          <div class="field-error" id="trades-error">Please select at least one service discipline.</div>
+        </div>
+
+        <div class="field-row" style="margin-top:4px">
+          <div class="field-group">
+            <label for="coverage">Geographical coverage <span class="opt">(optional)</span></label>
+            <input type="text" id="coverage" name="coverage" placeholder="e.g. Greater Manchester, Merseyside, North West">
+          </div>
+          <div class="field-group">
+            <label for="multi-site">Multi-site capability <span class="opt">(optional)</span></label>
+            <select id="multi-site" name="multiSite">
+              <option value="">— Select —</option>
+              <option value="Yes — able to cover multiple sites">Yes — able to cover multiple sites</option>
+              <option value="No — single-site only">No — single-site only</option>
+              <option value="Depends on location and volume">Depends on location and volume</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-title">Credentials &amp; Experience</div>
+
+        <div class="field-group">
+          <label for="certifications">Certifications &amp; accreditations <span class="opt">(optional)</span></label>
+          <textarea id="certifications" name="certifications" rows="3" placeholder="e.g. NICEIC registered, Gas Safe registered, ISO 9001, SSSTS, CSCS, DBS checked"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label for="insurance">Insurance details <span class="opt">(optional)</span></label>
+          <textarea id="insurance" name="insurance" rows="2" placeholder="e.g. £5m Public Liability (insurer and renewal date)"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label for="trading-history">Business trading history <span class="opt">(optional)</span></label>
+          <select id="trading-history" name="tradingHistory">
+            <option value="">— Select —</option>
+            <option value="Less than 1 year">Less than 1 year</option>
+            <option value="1–3 years">1–3 years</option>
+            <option value="3–5 years">3–5 years</option>
+            <option value="5–10 years">5–10 years</option>
+            <option value="Over 10 years">Over 10 years</option>
+          </select>
+        </div>
+
+        <div class="section-title">Availability</div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="working-hours">Normal working hours <span class="opt">(optional)</span></label>
+            <select id="working-hours" name="workingHours">
+              <option value="">— Select —</option>
+              <option value="Monday–Friday, office hours">Monday–Friday, office hours</option>
+              <option value="Monday–Saturday">Monday–Saturday</option>
+              <option value="7 days">7 days</option>
+              <option value="Flexible / by arrangement">Flexible / by arrangement</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="callout">Emergency / out-of-hours callout <span class="opt">(optional)</span></label>
+            <select id="callout" name="calloutAvailability">
+              <option value="">— Select —</option>
+              <option value="Yes — 24/7 emergency response">Yes — 24/7 emergency response</option>
+              <option value="Yes — evenings and weekends">Yes — evenings and weekends</option>
+              <option value="Limited — by arrangement">Limited — by arrangement</option>
+              <option value="No out-of-hours cover">No out-of-hours cover</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-title">Additional Information</div>
+
+        <div class="field-group">
+          <label for="additional-info">Anything else you'd like us to know? <span class="opt">(optional)</span></label>
+          <textarea id="additional-info" name="additionalInfo" rows="4" placeholder="Previous FM experience, specific sectors you work in, notable projects, etc."></textarea>
+        </div>
+
+        <p class="privacy-note">
+          By submitting this form you consent to AB Facilities Consultants retaining your details for the purpose of evaluating your application and contacting you about potential work. We will not share your details with third parties without your consent. See our <a href="/privacy/">Privacy Policy</a>. Submission does not guarantee inclusion on any approved supplier list.
+        </p>
+
+        <div>
+          <button type="submit" class="form-submit-btn" id="submit-btn">Submit Application</button>
+          <div class="form-status" id="form-status" role="alert" aria-live="polite"></div>
+        </div>
+
+      </form>
+
+      <!-- Success state -->
+      <div class="form-success" id="form-success" role="alert">
+        <div class="success-icon" aria-hidden="true">✓</div>
+        <h2>Application Received</h2>
+        <p>Thank you for applying. We'll review your details and be in touch. This may take a few days during busy periods.</p>
+        <p style="font-size:.9rem">Questions? Call <a href="tel:+447944308462">07944 308462</a> or email <a href="mailto:contact@abfacilities.com">contact@abfacilities.com</a>.</p>
+        <a href="/" class="btn" style="margin-top:8px">Return to Home</a>
       </div>
-    </div>
-  </section>
-</main>
+
+    </div><!-- .contractor-wrap -->
+  </div>
+</section>
+
 <footer class="site">
   <div class="container grid">
-    <div><h4>AB Facilities Consultants</h4><p>Practical facilities management consultancy across the North West.</p></div>
-    <div><h4>Services</h4><a href="/outsourced-fm/">Outsourced FM</a><a href="/services/hard-services/">Hard Services</a><a href="/services/soft-services/">Soft Services</a><a href="/consultancy/">FM Consultancy</a></div>
-    <div><h4>Company</h4><a href="/industries/">Sectors We Serve</a><a href="/about/">About</a><a href="/contact/">Contact</a><a href="mailto:contact@abfacilities.com">contact@abfacilities.com</a><a href="tel:+447944308462">07944 308462</a></div>
+    <div><h4>AB Facilities Consultants</h4><p>Practical facilities management consultancy for businesses, property owners, schools and community organisations across the North West.</p></div>
+    <div><h4>Services</h4><a href="/outsourced-fm/">Outsourced FM</a><a href="/services/hard-services/">Hard Services</a><a href="/services/soft-services/">Soft Services</a><a href="/consultancy/">FM Consultancy</a><a href="/services/compliance-audits/">Compliance Audits</a><a href="/services/health-safety-consultancy/">Health &amp; Safety</a><a href="/services/interim-fm/">Interim FM</a><a href="/services/procurement-tenders/">Procurement &amp; Tenders</a></div>
+    <div><h4>Company</h4><a href="/industries/">Industries We Serve</a><a href="/areas/">Areas We Cover</a><a href="/about/">About Adam Byrne</a><a href="/blog/">Blog</a><a href="/contact/">Contact</a><a href="mailto:contact@abfacilities.com">contact@abfacilities.com</a><a href="tel:+447944308462">07944 308462</a></div>
   </div>
   <div class="container bottom">&copy; 2026 AB Facilities Consultants &middot; Liverpool &amp; North West &middot; <a href="/privacy/" style="display:inline;color:#8496ab">Privacy Policy</a> &middot; <a href="/terms/" style="display:inline;color:#8496ab">Terms &amp; Conditions</a></div>
 </footer>
+
+<a href="https://wa.me/447944308462" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp AB Facilities Consultants"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.14c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36l.56.01c.18.01.42-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.14.14-.29.29-.13.58.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.63-.08.17-.2.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg></a>
+
 <script src="/assets/nav.js" defer></script>
 <script>
-document.getElementById('contractorForm').addEventListener('submit',async function(e){
-  e.preventDefault();
-  const btn=document.getElementById('submitBtn');
-  const status=document.getElementById('form-status');
-  const f=e.target;
-  if(f['bot-field'].value){status.style.display='block';status.style.background='#d4edda';status.textContent='Thank you.';return;}
-  const required=['businessName','contactName','email','phone','message'];
-  for(const field of required){
-    if(!f[field]||!f[field].value.trim()){
-      status.style.display='block';status.style.background='#f8d7da';status.style.color='#721c24';
-      status.textContent='Please fill in all required fields.';return;
+(function () {
+  var form = document.getElementById('contractor-form');
+  var status = document.getElementById('form-status');
+
+  // Trade checkbox highlights
+  document.querySelectorAll('.trade-check input[type="checkbox"]').forEach(function (cb) {
+    cb.addEventListener('change', function () {
+      this.closest('.trade-check').classList.toggle('checked', this.checked);
+      // Clear trade error when any selected
+      if (this.checked) {
+        document.getElementById('trades-error').classList.remove('show');
+        document.getElementById('trades-grid').classList.remove('error');
+      }
+    });
+  });
+
+  // Clear error on input
+  ['company-name', 'contact-name', 'email'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', function () {
+      this.classList.remove('error');
+      var err = document.getElementById(id + '-error');
+      if (err) err.classList.remove('show');
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var ok = true;
+
+    // Validate fields
+    function req(id, errId) {
+      var el = document.getElementById(id);
+      var err = document.getElementById(errId);
+      if (!el.value.trim()) {
+        el.classList.add('error');
+        if (err) err.classList.add('show');
+        ok = false;
+        return false;
+      }
+      el.classList.remove('error');
+      if (err) err.classList.remove('show');
+      return true;
     }
-  }
-  const trades=Array.from(f.querySelectorAll('input[name="trade[]"]:checked')).map(c=>c.value);
-  btn.disabled=true;btn.textContent='Sending…';
-  try{
-    const res=await fetch('/api/contractors',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      businessName:f.businessName.value,contactName:f.contactName.value,contactRole:f.contactRole.value,
-      email:f.email.value,phone:f.phone.value,location:f.location.value,coverage:f.coverage.value,
-      trades:trades.join(', '),otherTrade:f.otherTrade.value,plCover:f.plCover.value,elCover:f.elCover.value,
-      accreditation:f.accreditation.value,workers:f.workers.value,message:f.message.value,
-      'bot-field':f['bot-field'].value
-    })});
-    if(res.ok){
-      status.style.display='block';status.style.background='#d4edda';status.style.color='#155724';
-      status.textContent='Thank you — your registration has been received. We\'ll be in touch if there\'s a suitable fit.';
-      f.reset();
-    } else {throw new Error('Server error');}
-  } catch(err){
-    status.style.display='block';status.style.background='#f8d7da';status.style.color='#721c24';
-    status.textContent='Something went wrong. Please try again or call 07944 308462.';
-  }
-  btn.disabled=false;btn.textContent='Submit Registration';
-});
+
+    req('company-name', 'company-name-error');
+    req('contact-name', 'contact-name-error');
+
+    var emailEl = document.getElementById('email');
+    var emailErr = document.getElementById('email-error');
+    if (!emailEl.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+      emailEl.classList.add('error');
+      emailErr.classList.add('show');
+      ok = false;
+    } else {
+      emailEl.classList.remove('error');
+      emailErr.classList.remove('show');
+    }
+
+    var trades = Array.from(document.querySelectorAll('input[name="trades"]:checked')).map(function (c) { return c.value; });
+    if (!trades.length) {
+      document.getElementById('trades-error').classList.add('show');
+      ok = false;
+    }
+
+    if (!ok) return;
+
+    var btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+    status.textContent = '';
+    status.style.color = '';
+
+    var payload = {
+      'bot-field': document.getElementById('bot-field').value,
+      companyName: document.getElementById('company-name').value,
+      contactName: document.getElementById('contact-name').value,
+      email: emailEl.value,
+      phone: document.getElementById('phone').value,
+      trades: trades,
+      coverage: document.getElementById('coverage').value,
+      multiSite: document.getElementById('multi-site').value,
+      certifications: document.getElementById('certifications').value,
+      insurance: document.getElementById('insurance').value,
+      tradingHistory: document.getElementById('trading-history').value,
+      workingHours: document.getElementById('working-hours').value,
+      calloutAvailability: document.getElementById('callout').value,
+      additionalInfo: document.getElementById('additional-info').value
+    };
+
+    fetch('/api/contractors', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
+      .then(function (result) {
+        btn.disabled = false;
+        btn.textContent = 'Submit Application';
+        if (result.ok) {
+          form.style.display = 'none';
+          document.getElementById('form-success').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          status.style.color = '#c0392b';
+          status.textContent = (result.body && result.body.error) || 'Something went wrong. Please try again or call 07944 308462.';
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Submit Application';
+        status.style.color = '#c0392b';
+        status.textContent = 'Something went wrong. Please try again or call us on 07944 308462.';
+      });
+  });
+})();
 </script>
-<a href="https://wa.me/447944308462" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Message on WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.14c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36l.56.01c.18.01.42-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.14.14-.29.29-.13.58.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.15.46.13.63-.08.17-.2.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg></a>
-<button class="back-to-top" id="backToTop" aria-label="Back to top"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button>
-<script>const btn=document.getElementById('backToTop');window.addEventListener('scroll',()=>{btn.classList.toggle('visible',window.scrollY>400)});btn.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'})});</script>
 </body>
 </html>

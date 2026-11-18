@@ -1,101 +1,160 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  if (!env.RESEND_API_KEY) {
-    return new Response(JSON.stringify({ error: 'Server configuration error' }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
   let body;
   try {
     body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: 'Invalid request' }), {
-      status: 400, headers: { 'Content-Type': 'application/json' }
+    return new Response(JSON.stringify({ error: 'Invalid request body.' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  // Honeypot check
+  // Honeypot
   if (body['bot-field']) {
     return new Response(JSON.stringify({ ok: true }), {
-      status: 200, headers: { 'Content-Type': 'application/json' }
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  const { businessName, contactName, contactRole, email, phone, location, coverage,
-          trades, otherTrade, plCover, elCover, accreditation, workers, message } = body;
+  // Server-side validation
+  const companyName = (body.companyName || '').trim();
+  const contactName = (body.contactName || '').trim();
+  const email = (body.email || '').trim();
+  const trades = Array.isArray(body.trades) ? body.trades.filter(Boolean) : [];
 
-  if (!businessName || !contactName || !email || !phone || !message) {
-    return new Response(JSON.stringify({ error: 'Missing required fields' }), {
-      status: 400, headers: { 'Content-Type': 'application/json' }
-    });
+  if (!companyName) return err('Company / trading name is required.');
+  if (!contactName) return err('Main contact name is required.');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err('A valid email address is required.');
+  if (!trades.length) return err('Please select at least one service discipline.');
+
+  const phone = (body.phone || '').trim();
+  const coverage = (body.coverage || '').trim();
+  const certifications = (body.certifications || '').trim();
+  const insurance = (body.insurance || '').trim();
+  const tradingHistory = (body.tradingHistory || '').trim();
+  const multiSite = (body.multiSite || '').trim();
+  const workingHours = (body.workingHours || '').trim();
+  const calloutAvailability = (body.calloutAvailability || '').trim();
+  const additionalInfo = (body.additionalInfo || '').trim();
+
+  // Email subject — primary trade from first selected discipline
+  const primaryTrade = trades[0] || 'General';
+  const subject = `ABFC — New Contractor Application — ${primaryTrade}`;
+
+  const tradesHtml = trades.map(t => `<li>${esc(t)}</li>`).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>${esc(subject)}</title></head>
+<body style="font-family:Arial,sans-serif;font-size:14px;color:#1a1a1a;max-width:680px;margin:0 auto;padding:20px">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#0d1f3c;border-radius:8px 8px 0 0">
+  <tr><td style="padding:20px 24px">
+    <span style="color:#fff;font-size:18px;font-weight:bold">AB Facilities Consultants</span>
+    <span style="color:#0e7f74;font-size:13px;margin-left:12px">Contractor Application</span>
+  </td></tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px">
+  <tr><td style="padding:24px">
+
+    <h2 style="color:#0d1f3c;margin:0 0 4px">${esc(subject)}</h2>
+    <p style="color:#718096;margin:0 0 4px;font-size:12px;background:#fef9c3;padding:8px 10px;border-radius:4px">
+      ⚠ This is an application, not an approval. All contractors enter a review process before being added to the approved supplier list.
+    </p>
+    <p style="color:#718096;margin:0 0 24px;font-size:13px">Received ${new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', dateStyle: 'full', timeStyle: 'short' })}</p>
+
+    <h3 style="color:#0d1f3c;border-bottom:2px solid #0e7f74;padding-bottom:6px;margin-bottom:16px">Company Details</h3>
+    ${row('Company / Trading Name', `<strong>${esc(companyName)}</strong>`)}
+    ${row('Main Contact', contactName)}
+    ${row('Email', `<a href="mailto:${esc(email)}">${esc(email)}</a>`)}
+    ${phone ? row('Telephone', phone) : ''}
+
+    <h3 style="color:#0d1f3c;border-bottom:2px solid #0e7f74;padding-bottom:6px;margin:24px 0 16px">Service Disciplines</h3>
+    <ul style="margin:0 0 16px;padding-left:20px;line-height:1.8">${tradesHtml}</ul>
+    ${coverage ? row('Geographical Coverage', coverage) : ''}
+    ${multiSite ? row('Multi-Site Capability', multiSite) : ''}
+
+    <h3 style="color:#0d1f3c;border-bottom:2px solid #0e7f74;padding-bottom:6px;margin:24px 0 16px">Credentials &amp; Experience</h3>
+    ${certifications ? row('Certifications &amp; Accreditations', esc(certifications).replace(/\n/g, '<br>')) : row('Certifications &amp; Accreditations', '<em>Not provided</em>')}
+    ${insurance ? row('Insurance Details', esc(insurance).replace(/\n/g, '<br>')) : row('Insurance Details', '<em>Not provided</em>')}
+    ${tradingHistory ? row('Trading History', esc(tradingHistory).replace(/\n/g, '<br>')) : ''}
+
+    <h3 style="color:#0d1f3c;border-bottom:2px solid #0e7f74;padding-bottom:6px;margin:24px 0 16px">Availability</h3>
+    ${workingHours ? row('Normal Working Hours', workingHours) : ''}
+    ${calloutAvailability ? row('Emergency Callout', calloutAvailability) : ''}
+
+    ${additionalInfo ? `<h3 style="color:#0d1f3c;border-bottom:2px solid #0e7f74;padding-bottom:6px;margin:24px 0 16px">Additional Information</h3>
+    <div style="background:#f7fafc;border-left:3px solid #0e7f74;padding:14px 16px;border-radius:0 6px 6px 0;line-height:1.6">${esc(additionalInfo).replace(/\n/g, '<br>')}</div>` : ''}
+
+    <h3 style="color:#0d1f3c;border-bottom:2px solid #0e7f74;padding-bottom:6px;margin:24px 0 16px">Metadata</h3>
+    ${row('Submitted', new Date().toISOString())}
+
+  </td></tr>
+</table>
+
+<p style="color:#a0aec0;font-size:11px;text-align:center;margin-top:16px">
+  AB Facilities Consultants &middot; contact@abfacilities.com &middot; 07944 308462
+</p>
+</body>
+</html>`;
+
+  const resendKey = env.RESEND_API_KEY;
+  if (!resendKey) {
+    console.error('RESEND_API_KEY not set');
+    return err('Email service not configured. Please call us on 07944 308462.', 500);
   }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return new Response(JSON.stringify({ error: 'Invalid email address' }), {
-      status: 400, headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
-  const html = `
-<h2>New Contractor Registration</h2>
-<h3>Business Details</h3>
-<table style="border-collapse:collapse;width:100%">
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;width:200px">Business Name</td><td style="padding:8px;border:1px solid #ddd">${businessName}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Contact Name</td><td style="padding:8px;border:1px solid #ddd">${contactName}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Role</td><td style="padding:8px;border:1px solid #ddd">${contactRole || '—'}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${email}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Phone</td><td style="padding:8px;border:1px solid #ddd">${phone}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Based In</td><td style="padding:8px;border:1px solid #ddd">${location || '—'}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Coverage Area</td><td style="padding:8px;border:1px solid #ddd">${coverage || '—'}</td></tr>
-</table>
-<h3>Trade Coverage</h3>
-<table style="border-collapse:collapse;width:100%">
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;width:200px">Trades</td><td style="padding:8px;border:1px solid #ddd">${trades || '—'}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Other Trades</td><td style="padding:8px;border:1px solid #ddd">${otherTrade || '—'}</td></tr>
-</table>
-<h3>Insurance &amp; Compliance</h3>
-<table style="border-collapse:collapse;width:100%">
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;width:200px">Public Liability</td><td style="padding:8px;border:1px solid #ddd">${plCover || '—'}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Employer's Liability</td><td style="padding:8px;border:1px solid #ddd">${elCover || '—'}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Accreditations</td><td style="padding:8px;border:1px solid #ddd">${accreditation || '—'}</td></tr>
-  <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Workforce Size</td><td style="padding:8px;border:1px solid #ddd">${workers || '—'}</td></tr>
-</table>
-<h3>About the Business</h3>
-<p style="white-space:pre-wrap">${message}</p>
-<hr>
-<p style="color:#666;font-size:12px">Submitted via abfacilities.com/contractors/</p>`;
 
   const resendRes = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${resendKey}`,
     },
     body: JSON.stringify({
-      from: 'AB Facilities Website <noreply@abfacilities.com>',
+      from: 'AB Facilities Consultants <noreply@abfacilities.com>',
       to: ['contact@abfacilities.com'],
       reply_to: email,
-      subject: `Contractor Registration: ${businessName} — ${trades || 'Various trades'}`,
-      html
-    })
+      subject,
+      html,
+    }),
   });
 
   if (!resendRes.ok) {
-    const err = await resendRes.text();
-    console.error('Resend error:', err);
-    return new Response(JSON.stringify({ error: 'Failed to send email' }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
-    });
+    const errBody = await resendRes.text().catch(() => '');
+    console.error('Resend error', resendRes.status, errBody);
+    return err('We could not submit your application right now. Please call 07944 308462.', 500);
   }
 
   return new Response(JSON.stringify({ ok: true }), {
-    status: 200, headers: { 'Content-Type': 'application/json' }
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
   });
 }
 
-export async function onRequestGet() {
-  return new Response('Method Not Allowed', { status: 405 });
+function err(msg, status = 400) {
+  return new Response(JSON.stringify({ error: msg }), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function row(label, value) {
+  return `<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px">
+    <tr>
+      <td width="38%" style="color:#718096;font-size:13px;padding:6px 12px 6px 0;vertical-align:top">${label}</td>
+      <td style="color:#1a1a1a;font-size:13px;padding:6px 0;vertical-align:top">${value}</td>
+    </tr>
+  </table>`;
 }

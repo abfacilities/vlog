@@ -258,6 +258,169 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 
+<script>
+(function () {
+  var form = document.getElementById('enquiry-form');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = document.getElementById('enq-btn');
+    var status = document.getElementById('enq-status');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    status.textContent = '';
+    status.style.color = '';
+    var payload = {
+      'bot-field': document.getElementById('enquiry-bot').value,
+      name: document.getElementById('enq-name').value,
+      email: document.getElementById('enq-email').value,
+      phone: document.getElementById('enq-phone').value,
+      company: document.getElementById('enq-company').value,
+      sector: document.getElementById('enq-sector').value,
+      service: document.getElementById('enq-service').value,
+      numPremises: document.getElementById('enq-premises').value,
+      description: document.getElementById('enq-desc').value
+    };
+    if (!payload.name.trim() || !payload.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      btn.disabled = false;
+      btn.textContent = 'Request a Facilities Management Consultation';
+      status.style.color = '#c0392b';
+      status.textContent = 'Please enter your name and a valid email address.';
+      return;
+    }
+    fetch('/api/enquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
+      .then(function (result) {
+        btn.disabled = false;
+        btn.textContent = 'Request a Facilities Management Consultation';
+        if (result.ok) {
+          form.style.display = 'none';
+          document.getElementById('enq-success').style.display = 'block';
+        } else {
+          status.style.color = '#c0392b';
+          status.textContent = (result.body && result.body.error) || 'Something went wrong. Please call 07944 308462.';
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Request a Facilities Management Consultation';
+        status.style.color = '#c0392b';
+        status.textContent = 'Something went wrong. Please try again or call 07944 308462.';
+      });
+  });
+})();
+</script>
+
+<section id="consultation" style="background:var(--navy);padding:64px 0">
+  <style>
+    @media (max-width:760px) {
+      #consultation .enq-grid { grid-template-columns: 1fr !important; }
+      #consultation .enq-fields { grid-template-columns: 1fr !important; }
+    }
+  </style>
+  <div class="container enq-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+    <div>
+      <div class="section-eyebrow" style="color:#0e7f74">Get in Touch</div>
+      <h2 style="color:#fff;margin-bottom:12px">Request a Facilities Management Consultation</h2>
+      <p style="color:#8496ab">Tell us a bit about your organisation and what you need. We aim to respond to commercial enquiries within two working days.</p>
+      <ul style="list-style:none;padding:0;margin:24px 0 0;display:flex;flex-direction:column;gap:10px">
+        <li style="display:flex;gap:10px;align-items:flex-start;color:#8496ab;font-size:.9rem"><span style="color:#0e7f74;font-weight:700;margin-top:1px">✓</span> Free initial consultation — no obligation</li>
+        <li style="display:flex;gap:10px;align-items:flex-start;color:#8496ab;font-size:.9rem"><span style="color:#0e7f74;font-weight:700;margin-top:1px">✓</span> Qualified FM professional, not a sales team</li>
+        <li style="display:flex;gap:10px;align-items:flex-start;color:#8496ab;font-size:.9rem"><span style="color:#0e7f74;font-weight:700;margin-top:1px">✓</span> Hiscox insured — £2m PI, £5m PL, £5m EL</li>
+        <li style="display:flex;gap:10px;align-items:flex-start;color:#8496ab;font-size:.9rem"><span style="color:#0e7f74;font-weight:700;margin-top:1px">✓</span> Two-working-day response to all enquiries</li>
+      </ul>
+      <p style="margin-top:24px;color:#8496ab;font-size:.85rem">Prefer to call? <a href="tel:+447944308462" style="color:#fff">07944 308462</a></p>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:28px 24px">
+      <p style="display:none" aria-hidden="true"><input name="bot-field" id="enquiry-bot" tabindex="-1" autocomplete="off"></p>
+      <form id="enquiry-form">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label for="enq-name" style="font-size:.8rem;font-weight:600;color:var(--navy)">Full name <span style="color:#c0392b">*</span></label>
+            <input type="text" id="enq-name" name="name" required aria-required="true" autocomplete="name" style="padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.9rem;font-family:inherit;color:var(--navy)">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label for="enq-company" style="font-size:.8rem;font-weight:600;color:var(--navy)">Company / organisation</label>
+            <input type="text" id="enq-company" name="company" autocomplete="organization" style="padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.9rem;font-family:inherit;color:var(--navy)">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label for="enq-email" style="font-size:.8rem;font-weight:600;color:var(--navy)">Business email <span style="color:#c0392b">*</span></label>
+            <input type="email" id="enq-email" name="email" required aria-required="true" autocomplete="email" style="padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.9rem;font-family:inherit;color:var(--navy)">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label for="enq-phone" style="font-size:.8rem;font-weight:600;color:var(--navy)">Telephone <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+            <input type="tel" id="enq-phone" name="phone" autocomplete="tel" style="padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.9rem;font-family:inherit;color:var(--navy)">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label for="enq-sector" style="font-size:.8rem;font-weight:600;color:var(--navy)">Industry / sector</label>
+            <select id="enq-sector" name="sector" style="padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.9rem;font-family:inherit;color:var(--navy);background:#fff;-webkit-appearance:none;appearance:none">
+              <option value="">— Select —</option>
+              <option>Commercial Offices</option>
+              <option>Schools &amp; Academies</option>
+              <option>Multi-Academy Trusts</option>
+              <option>Care Homes</option>
+              <option>Housing Associations</option>
+              <option>Industrial Premises</option>
+              <option>Retail &amp; Hospitality</option>
+              <option>Charities &amp; Third Sector</option>
+              <option>Community Centres</option>
+              <option>Gyms &amp; Leisure</option>
+              <option>Independent Hotels</option>
+              <option>Independent Restaurants</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label for="enq-service" style="font-size:.8rem;font-weight:600;color:var(--navy)">Service required</label>
+            <select id="enq-service" name="service" style="padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.9rem;font-family:inherit;color:var(--navy);background:#fff;-webkit-appearance:none;appearance:none">
+              <option value="">— Select —</option>
+              <option>Outsourced FM</option>
+              <option>Planned Maintenance</option>
+              <option>Compliance Management</option>
+              <option>FM Consultancy / Audit</option>
+              <option>Contractor Management</option>
+              <option>Soft Services</option>
+              <option>Multi-Site FM</option>
+              <option>Not sure — please advise</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label for="enq-premises" style="font-size:.8rem;font-weight:600;color:var(--navy)">Number of premises</label>
+            <select id="enq-premises" name="numPremises" style="padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.9rem;font-family:inherit;color:var(--navy);background:#fff;-webkit-appearance:none;appearance:none">
+              <option value="">— Select —</option>
+              <option value="1">1 site</option>
+              <option value="2-5">2–5 sites</option>
+              <option value="6-10">6–10 sites</option>
+              <option value="11+">11+ sites</option>
+            </select>
+          </div>
+          <div></div>
+        </div>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:4px">
+          <label for="enq-desc" style="font-size:.8rem;font-weight:600;color:var(--navy)">Brief description of requirements</label>
+          <textarea id="enq-desc" name="description" rows="3" style="padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:.9rem;font-family:inherit;color:var(--navy);resize:vertical" placeholder="Tell us a little about your site and what you need..."></textarea>
+        </div>
+        <p style="font-size:.72rem;color:var(--muted);margin:10px 0 0;line-height:1.5">By submitting this form you agree to us contacting you about your enquiry. See our <a href="/privacy/">Privacy Policy</a>.</p>
+        <button type="submit" id="enq-btn" style="margin-top:14px;width:100%;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:12px 20px;font-size:.95rem;font-weight:600;font-family:inherit;cursor:pointer">Request a Facilities Management Consultation</button>
+        <p id="enq-status" style="margin-top:10px;font-size:.85rem;min-height:1em" role="alert" aria-live="polite"></p>
+      </form>
+      <div id="enq-success" style="display:none;text-align:center;padding:32px 0">
+        <div style="font-size:32px;margin-bottom:12px">✓</div>
+        <h3 style="color:var(--navy);margin-bottom:8px">Enquiry Received</h3>
+        <p style="color:var(--muted);font-size:.9rem">We'll be in touch within two working days. Call <a href="tel:+447944308462">07944 308462</a> in the meantime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="cta-band">
   <div class="container">
     <h2>Not sure where to start?</h2>

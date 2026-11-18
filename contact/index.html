@@ -69,13 +69,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>Send a message</h2>
       <form id="contact-form" class="form-row">
         <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <input type="text" name="name" placeholder="Full name" required>
-        <input type="email" name="email" placeholder="Email address" required>
-        <input type="tel" name="phone" placeholder="Phone number">
-        <input type="text" name="organisation" placeholder="Organisation">
-        <textarea name="message" rows="5" placeholder="Tell us a bit about your site and what you need" required></textarea>
+        <input type="text" name="name" placeholder="Full name" required aria-required="true" autocomplete="name">
+        <input type="email" name="email" placeholder="Business email" required aria-required="true" autocomplete="email">
+        <input type="tel" name="phone" placeholder="Phone number (optional)" autocomplete="tel">
+        <input type="text" name="organisation" placeholder="Organisation (optional)" autocomplete="organization">
+        <div>
+          <label for="contact-category" style="display:block;font-size:.85rem;font-weight:600;margin-bottom:4px;color:var(--navy)">Enquiry type</label>
+          <select id="contact-category" name="category" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit;color:var(--navy);background:#fff;-webkit-appearance:none;appearance:none">
+            <option value="General enquiry">General enquiry</option>
+            <option value="Facilities management services">Facilities management services</option>
+            <option value="Consultancy">Consultancy</option>
+            <option value="Existing customer support">Existing customer support</option>
+            <option value="Contractor / supplier enquiry">Contractor / supplier enquiry</option>
+            <option value="Partnerships">Partnerships</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <textarea name="message" rows="5" placeholder="Tell us a bit about your site and what you need" required aria-required="true"></textarea>
+        <p style="font-size:.8rem;color:var(--muted);margin:0">We aim to respond to commercial enquiries within two working days. For a detailed quotation, use our <a href="/quote/">Request a Quote</a> form. For contractor applications, see our <a href="/contractors/">contractor registration</a> page.</p>
         <button type="submit" class="btn" style="border:none;cursor:pointer">Send message</button>
-        <p id="contact-form-status" style="margin-top:12px;font-size:.9rem"></p>
+        <p id="contact-form-status" style="margin-top:12px;font-size:.9rem" role="alert" aria-live="polite"></p>
       </form>
     </div>
   </div>
@@ -135,6 +148,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       email: form.email.value,
       phone: form.phone.value,
       organisation: form.organisation.value,
+      category: form.category.value,
       message: form.message.value,
       'bot-field': form['bot-field'].value
     };
