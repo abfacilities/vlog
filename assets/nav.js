@@ -3,6 +3,66 @@ document.addEventListener('DOMContentLoaded', function () {
   var nav = document.getElementById('site-nav');
   if (!toggle || !nav) return;
 
+  // --- Build Divisions dropdown ---
+  var divisionsLink = nav.querySelector('a[href="/divisions/"]');
+  if (divisionsLink) {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'nav-dropdown';
+
+    // Move the existing Divisions anchor into wrapper
+    divisionsLink.parentNode.insertBefore(wrapper, divisionsLink);
+    wrapper.appendChild(divisionsLink);
+
+    // Build dropdown menu
+    var menu = document.createElement('div');
+    menu.className = 'nav-dropdown-menu';
+    menu.innerHTML =
+      '<a href="/divisions/ab-facilities-consultants/">' +
+        'AB Facilities Consultants' +
+        '<span class="dd-status dd-active">Active</span>' +
+      '</a>' +
+      '<hr>' +
+      '<a href="/divisions/ab-cleaning/">' +
+        'AB Cleaning' +
+        '<span class="dd-status dd-dev">Dev</span>' +
+      '</a>' +
+      '<a href="/divisions/ab-technical/">' +
+        'AB Technical' +
+        '<span class="dd-status dd-dev">Dev</span>' +
+      '</a>' +
+      '<a href="/divisions/ab-property/">' +
+        'AB Property' +
+        '<span class="dd-status dd-dev">Dev</span>' +
+      '</a>' +
+      '<hr>' +
+      '<a href="/divisions/ab-group/">' +
+        'AB Group' +
+        '<span class="dd-status dd-future">Future</span>' +
+      '</a>';
+    wrapper.appendChild(menu);
+
+    // Mobile: tap Divisions link to toggle dropdown sub-items
+    var isMobile = function () { return window.innerWidth <= 860; };
+    divisionsLink.addEventListener('click', function (e) {
+      if (isMobile()) {
+        e.preventDefault();
+        wrapper.classList.toggle('open');
+      }
+    });
+
+    // Close dropdown on outside click (desktop)
+    document.addEventListener('click', function (e) {
+      if (!wrapper.contains(e.target)) {
+        wrapper.classList.remove('open');
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') wrapper.classList.remove('open');
+    });
+  }
+
   function setOpen(isOpen) {
     nav.classList.toggle('open', isOpen);
     toggle.classList.toggle('open', isOpen);
@@ -13,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setOpen(!nav.classList.contains('open'));
   });
 
-  nav.querySelectorAll('a').forEach(function (a) {
+  nav.querySelectorAll('a:not(.nav-dropdown a)').forEach(function (a) {
     a.addEventListener('click', function () { setOpen(false); });
   });
 
