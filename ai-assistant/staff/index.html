@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AB Facilities — Staff Workspace</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+/* ── Auth screen ── */
+.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f8f9fb}
+.auth-card{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:40px 36px;width:100%;max-width:360px;box-shadow:0 4px 24px rgba(0,0,0,.07)}
+.auth-logo{text-align:center;margin-bottom:24px}
+.auth-logo img{height:40px}
+.auth-title{font-size:1.1rem;font-weight:700;color:var(--navy);text-align:center;margin-bottom:4px}
+.auth-sub{font-size:.85rem;color:var(--muted);text-align:center;margin-bottom:24px}
+.pin-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-family:inherit;font-size:1.3rem;text-align:center;letter-spacing:.3em;color:var(--navy);box-sizing:border-box;transition:border-color .15s}
+.pin-input:focus{outline:none;border-color:var(--accent)}
+.auth-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:10px;padding:13px;font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:14px;transition:background .15s}
+.auth-btn:hover:not(:disabled){background:#162d55}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-error{background:#fef2f2;border:1.5px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:.85rem;color:#991b1b;text-align:center;margin-top:12px}
+
+/* ── Workspace layout ── */
+.workspace{display:none;min-height:100vh;background:#f8f9fb}
+.ws-header{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.ws-header-title{font-weight:700;font-size:1rem}
+.ws-header-sub{font-size:.8rem;opacity:.7}
+.ws-signout{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:7px;padding:6px 14px;font-family:inherit;font-size:.8rem;cursor:pointer;transition:background .15s}
+.ws-signout:hover{background:rgba(255,255,255,.1)}
+
+/* ── Workspace tabs ── */
+.ws-tabs{background:#fff;border-bottom:1.5px solid var(--border);display:flex;padding:0 24px}
+.ws-tab{padding:13px 16px;font-size:.88rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
+.ws-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.ws-tab:hover{color:var(--navy)}
+
+/* ── Tab content ── */
+.ws-pane{display:none;padding:24px}
+.ws-pane.active{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.ws-pane.active{grid-template-columns:1fr}}
+.ws-pane.chat-pane{display:none;flex-direction:column;height:calc(100vh - 136px);padding:0}
+.ws-pane.chat-pane.active{display:flex}
+
+/* ── Cards ── */
+.ws-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:20px 24px}
+.ws-card h3{font-size:.95rem;font-weight:700;color:var(--navy);margin:0 0 14px}
+.ws-card-full{grid-column:1/-1}
+
+/* ── Action buttons ── */
+.action-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.action-btn{background:#f0fdf4;border:1.5px solid #bbf7d0;color:#065f46;border-radius:8px;padding:8px 16px;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}
+.action-btn:hover{background:#dcfce7;border-color:#86efac}
+.action-btn.red{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.action-btn.red:hover{background:#fee2e2;border-color:#fca5a5}
+.action-btn.blue{background:#eff6ff;border-color:#bfdbfe;color:#1e40af}
+.action-btn.blue:hover{background:#dbeafe;border-color:#93c5fd}
+
+/* ── Status badges ── */
+.badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.75rem;font-weight:700}
+.badge.green{background:#dcfce7;color:#166534}
+.badge.amber{background:#fef3c7;color:#92400e}
+.badge.red{background:#fef2f2;color:#991b1b}
+.badge.grey{background:#f1f5f9;color:#64748b}
+
+/* ── Form fields ── */
+.ws-label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ws-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:.88rem;color:var(--navy);box-sizing:border-box;transition:border-color .15s}
+.ws-input:focus{outline:none;border-color:var(--accent)}
+.ws-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:18px;padding-right:34px}
+.field-row{margin-bottom:14px}
+
+/* ── Approval table ── */
+.approval-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.approval-table th{text-align:left;padding:7px 10px;font-size:.75rem;font-weight:700;color:var(--muted);border-bottom:2px solid var(--border);text-transform:uppercase;letter-spacing:.06em}
+.approval-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.approval-table tr:last-child td{border-bottom:none}
+
+/* ── Chat (staff mode) ── */
+.ws-chat-window{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.ws-msg{display:flex;gap:10px;align-items:flex-start;animation:msgIn .2s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.ws-msg.user{flex-direction:row-reverse}
+.ws-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.ws-msg.user .ws-avatar{background:var(--navy);color:#fff}
+.ws-msg.ai .ws-avatar{background:var(--accent);color:#fff}
+.ws-bubble{max-width:80%;padding:11px 15px;border-radius:10px;font-size:.88rem;line-height:1.6}
+.ws-msg.user .ws-bubble{background:var(--navy);color:#fff;border-radius:10px 2px 10px 10px}
+.ws-msg.ai .ws-bubble{background:#fff;border:1.5px solid var(--border);border-radius:2px 10px 10px 10px}
+.ws-bubble p{margin:0 0 7px}
+.ws-bubble p:last-child{margin:0}
+.ws-bubble ul{margin:4px 0 7px 16px;padding:0}
+.ws-bubble li{margin-bottom:3px}
+.ws-bubble strong{color:var(--navy)}
+.ws-msg.user .ws-bubble strong{color:#fff}
+.ws-bubble pre{background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-size:.82rem;overflow-x:auto;white-space:pre-wrap;margin:8px 0 0}
+.ws-typing-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#94a3b8;margin:0 2px;animation:blink 1.2s infinite}
+.ws-typing-dot:nth-child(2){animation-delay:.2s}
+.ws-typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+.ws-input-bar{border-top:1px solid var(--border);padding:14px 20px;background:#fff;display:flex;gap:10px;align-items:flex-end}
+.ws-textarea{flex:1;border:1.5px solid var(--border);border-radius:9px;padding:9px 13px;font-family:inherit;font-size:.88rem;color:var(--navy);resize:none;line-height:1.5;min-height:40px;max-height:120px;overflow-y:auto;transition:border-color .15s}
+.ws-textarea:focus{outline:none;border-color:var(--accent)}
+.ws-send{background:var(--navy);color:#fff;border:none;border-radius:9px;padding:9px 16px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s}
+.ws-send:hover:not(:disabled){background:#162d55}
+.ws-send:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── Quick actions bar ── */
+.quick-actions{background:#fff;border-bottom:1px solid var(--border);padding:10px 20px;display:flex;gap:8px;flex-wrap:wrap}
+.qa-btn{background:#f1f5f9;border:1.5px solid var(--border);border-radius:7px;padding:6px 13px;font-size:.8rem;font-family:inherit;color:var(--navy);font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}
+.qa-btn:hover{background:#e2e8f0;border-color:#94a3b8}
+
+/* ── Spend check ── */
+.spend-result{padding:16px;border-radius:10px;font-size:.88rem;margin-top:12px}
+.spend-result.ok{background:#f0fdf4;border:1.5px solid #bbf7d0;color:#166534}
+.spend-result.warn{background:#fef3c7;border:1.5px solid #fcd34d;color:#92400e}
+.spend-result.block{background:#fef2f2;border:1.5px solid #fecaca;color:#991b1b}
+</style>
+</head>
+<body>
+
+<!-- ── Auth screen ── -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <img src="/assets/logo.png" alt="AB Facilities Consultants" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div style="display:none;font-size:1.1rem;font-weight:800;color:var(--navy)">AB Facilities</div>
+    </div>
+    <div class="auth-title">Staff Workspace</div>
+    <div class="auth-sub">Enter your PIN to continue</div>
+    <input type="password" class="pin-input" id="pinInput" placeholder="••••••" inputmode="numeric" maxlength="10"
+      onkeydown="if(event.key==='Enter')checkPin()">
+    <button class="auth-btn" id="pinBtn" onclick="checkPin()">Enter workspace</button>
+    <div id="authError" style="display:none" class="auth-error"></div>
+  </div>
+</div>
+
+<!-- ── Main workspace ── -->
+<div class="workspace" id="workspace">
+  <div class="ws-header">
+    <div>
+      <div class="ws-header-title">AB Facilities — Staff Workspace</div>
+      <div class="ws-header-sub">Internal FM operations tool</div>
+    </div>
+    <button class="ws-signout" onclick="signOut()">Sign out</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="ws-tabs">
+    <div class="ws-tab active" onclick="showTab('ai')">🤖 AI Assistant</div>
+    <div class="ws-tab" onclick="showTab('spend')">💷 Spend Check</div>
+    <div class="ws-tab" onclick="showTab('approvals')">✅ Approval Limits</div>
+    <div class="ws-tab" onclick="showTab('info')">📋 Reference</div>
+  </div>
+
+  <!-- AI Chat tab -->
+  <div class="ws-pane chat-pane active" id="pane-ai">
+    <div class="quick-actions">
+      <button class="qa-btn" onclick="staffPrompt('I have a new enquiry to process into a job.')">New enquiry → job</button>
+      <button class="qa-btn" onclick="staffPrompt('I need to draft a quote.')">Draft a quote</button>
+      <button class="qa-btn" onclick="staffPrompt('I need to prepare a contractor dispatch.')">Contractor dispatch</button>
+      <button class="qa-btn" onclick="staffPrompt('I have a fault report to handle.')">Handle fault report</button>
+      <button class="qa-btn" onclick="staffPrompt('I need to log a spend request.')">Log spend request</button>
+    </div>
+    <div class="ws-chat-window" id="wsChatWindow"></div>
+    <div class="ws-input-bar">
+      <textarea class="ws-textarea" id="wsInput" rows="1"
+        placeholder="Describe a task — quote, dispatch, fault, spend check…"></textarea>
+      <button class="ws-send" id="wsSend" onclick="staffSend()">Send</button>
+    </div>
+  </div>
+
+  <!-- Spend check tab -->
+  <div class="ws-pane" id="pane-spend">
+    <div class="ws-card">
+      <h3>Spend Check</h3>
+      <div class="field-row">
+        <label class="ws-label">Item / description</label>
+        <input class="ws-input" id="spendDesc" placeholder="e.g. Emergency plumber callout — blocked drain">
+      </div>
+      <div class="field-row">
+        <label class="ws-label">Amount (£)</label>
+        <input class="ws-input" id="spendAmount" type="number" min="0" placeholder="e.g. 850">
+      </div>
+      <div class="field-row">
+        <label class="ws-label">Site</label>
+        <input class="ws-input" id="spendSite" placeholder="e.g. Prospect House, Liverpool">
+      </div>
+      <div class="field-row">
+        <label class="ws-label">Urgency / rationale</label>
+        <input class="ws-input" id="spendRationale" placeholder="e.g. Health and safety risk — urgent repair">
+      </div>
+      <button class="action-btn" onclick="runSpendCheck()">Check approval requirement</button>
+      <div id="spendResult"></div>
+    </div>
+    <div class="ws-card">
+      <h3>Current Approval Limits</h3>
+      <table class="approval-table">
+        <thead><tr><th>Amount</th><th>Authority</th><th>Requirement</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Up to £500</strong></td>
+            <td>Adam — unilateral</td>
+            <td>No approval needed. Log the spend.</td>
+          </tr>
+          <tr>
+            <td><strong>£501 – £2,500</strong></td>
+            <td>Adam — self-approve</td>
+            <td>Log with written rationale. No second sign-off needed.</td>
+          </tr>
+          <tr>
+            <td><strong>£2,501 – £5,000</strong></td>
+            <td>Client approval required</td>
+            <td>Get written client approval before committing.</td>
+          </tr>
+          <tr>
+            <td><strong>Over £5,000</strong></td>
+            <td>Client approval + review</td>
+            <td>Client approval and internal review before quoting or committing.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Approvals tab -->
+  <div class="ws-pane" id="pane-approvals">
+    <div class="ws-card ws-card-full">
+      <h3>Approval Log</h3>
+      <p style="font-size:.85rem;color:var(--muted);margin:0 0 16px">Spend approvals and decisions logged in this session. These are session-only — connect a database or spreadsheet to persist them.</p>
+      <div id="approvalLog">
+        <p style="color:var(--muted);font-size:.85rem">No approvals logged this session.</p>
+      </div>
+      <div style="margin-top:16px">
+        <button class="action-btn blue" onclick="showTab('spend')">Log a new spend →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reference tab -->
+  <div class="ws-pane" id="pane-info">
+    <div class="ws-card">
+      <h3>Commercial Rules</h3>
+      <ul style="font-size:.85rem;line-height:1.8;margin:0;padding-left:18px;color:var(--navy)">
+        <li>AB is <strong>not VAT-registered</strong> — all quotes state "No VAT applicable"</li>
+        <li>FM management fees are <strong>management only</strong> — specialist costs (contractors, materials, services) always quoted separately</li>
+        <li>No ISO certification or accreditation to be claimed</li>
+        <li>All prices subject to written scope agreement</li>
+      </ul>
+    </div>
+    <div class="ws-card">
+      <h3>Insurance (Hiscox)</h3>
+      <table class="approval-table">
+        <thead><tr><th>Cover</th><th>Limit</th></tr></thead>
+        <tbody>
+          <tr><td>Professional Indemnity</td><td>£2m per claim</td></tr>
+          <tr><td>Public Liability</td><td>£5m per claim</td></tr>
+          <tr><td>Employers' Liability</td><td>£5m</td></tr>
+          <tr><td>Cyber</td><td>£100k aggregate</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ws-card">
+      <h3>Package Pricing</h3>
+      <table class="approval-table">
+        <thead><tr><th>Package</th><th>Fee</th><th>Scope</th></tr></thead>
+        <tbody>
+          <tr><td>Essential</td><td>£695/mo</td><td>Single site, regular visits, compliance calendar</td></tr>
+          <tr><td>Professional</td><td>£1,495/mo</td><td>Multi-visit, contractor management, budget oversight</td></tr>
+          <tr><td>Enterprise</td><td>£2,495/mo</td><td>Complex sites, full FM oversight, board reporting</td></tr>
+          <tr><td>Multi-Site</td><td>£5,000+/mo</td><td>Portfolio management</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ws-card">
+      <h3>One-off Services</h3>
+      <table class="approval-table">
+        <thead><tr><th>Service</th><th>From</th></tr></thead>
+        <tbody>
+          <tr><td>Compliance Audit</td><td>£495/site</td></tr>
+          <tr><td>FM Review</td><td>£750/project</td></tr>
+          <tr><td>Interim FM</td><td>£500–£550/day</td></tr>
+          <tr><td>All others</td><td>Quoted per scope</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ws-card">
+      <h3>Key Contacts</h3>
+      <table class="approval-table">
+        <tbody>
+          <tr><td><strong>Operations</strong></td><td><a href="mailto:contact@abfacilities.com">contact@abfacilities.com</a></td></tr>
+          <tr><td><strong>Mobile</strong></td><td><a href="tel:+447944308462">07944 308462</a></td></tr>
+          <tr><td><strong>Customer tool</strong></td><td><a href="/ai-assistant/">abfacilities.com/ai-assistant/</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var TOKEN_KEY = 'abfc_staff_token';
+  var token = null;
+
+  // ── Auth ──────────────────────────────────────────────────────────────
+  // Check if we already have a valid token stored
+  var stored = sessionStorage.getItem(TOKEN_KEY);
+  if (stored) {
+    verifyToken(stored, function (ok) {
+      if (ok) {
+        token = stored;
+        showWorkspace();
+      }
+    });
+  }
+
+  function checkPin() {
+    var pin = document.getElementById('pinInput').value.trim();
+    if (!pin) return;
+
+    var btn = document.getElementById('pinBtn');
+    btn.disabled = true;
+    btn.textContent = 'Checking…';
+    hideAuthError();
+
+    fetch('/api/staff-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin: pin }),
+    })
+      .then(function (res) { return res.json().then(function (b) { return { ok: res.ok, body: b }; }); })
+      .then(function (result) {
+        btn.disabled = false;
+        btn.textContent = 'Enter workspace';
+
+        if (result.ok && result.body.token) {
+          token = result.body.token;
+          sessionStorage.setItem(TOKEN_KEY, token);
+          showWorkspace();
+        } else {
+          showAuthError(result.body.error || 'Incorrect PIN.');
+          document.getElementById('pinInput').value = '';
+          document.getElementById('pinInput').focus();
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Enter workspace';
+        showAuthError('Could not reach authentication service. Please try again.');
+      });
+  }
+
+  function verifyToken(tok, cb) {
+    fetch('/api/staff-auth', {
+      headers: { Authorization: 'Bearer ' + tok },
+    })
+      .then(function (res) { cb(res.ok); })
+      .catch(function () { cb(false); });
+  }
+
+  function showWorkspace() {
+    document.getElementById('authScreen').style.display = 'none';
+    document.getElementById('workspace').style.display = 'block';
+    addStaffMessage('Welcome back. I\'m the AB Facilities AI — staff workspace. I can turn enquiries into jobs, draft quotes, prepare contractor dispatches, check spend approval requirements, and handle fault reports.\n\nWhat do you need today?');
+  }
+
+  window.signOut = function () {
+    sessionStorage.removeItem(TOKEN_KEY);
+    token = null;
+    document.getElementById('workspace').style.display = 'none';
+    document.getElementById('authScreen').style.display = 'flex';
+    document.getElementById('pinInput').value = '';
+  };
+
+  function showAuthError(msg) {
+    var el = document.getElementById('authError');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function hideAuthError() {
+    document.getElementById('authError').style.display = 'none';
+  }
+
+  window.checkPin = checkPin;
+
+  // ── Tabs ──────────────────────────────────────────────────────────────
+  window.showTab = function (name) {
+    document.querySelectorAll('.ws-tab').forEach(function (t, i) {
+      var names = ['ai', 'spend', 'approvals', 'info'];
+      t.classList.toggle('active', names[i] === name);
+    });
+    document.querySelectorAll('.ws-pane').forEach(function (p) { p.classList.remove('active'); });
+    document.getElementById('pane-' + name).classList.add('active');
+  };
+
+  // ── Staff AI chat ──────────────────────────────────────────────────────
+  var staffMessages = [];
+  var staffLoading = false;
+
+  window.staffPrompt = function (text) {
+    document.getElementById('wsInput').value = text;
+    document.getElementById('wsInput').focus();
+    staffSend();
+  };
+
+  window.staffSend = function () {
+    var input = document.getElementById('wsInput');
+    var text = input.value.trim();
+    if (!text || staffLoading) return;
+
+    addStaffUserMessage(text);
+    input.value = '';
+    input.style.height = 'auto';
+    staffMessages.push({ role: 'user', content: text });
+
+    callStaffAPI();
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var ta = document.getElementById('wsInput');
+    if (ta) {
+      ta.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+      });
+      ta.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); staffSend(); }
+      });
+    }
+  });
+
+  function callStaffAPI() {
+    staffLoading = true;
+    updateStaffSend();
+    var typingId = addStaffTyping();
+
+    fetch('/api/ai-chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Staff-Token': token || '',
+      },
+      body: JSON.stringify({ messages: staffMessages, mode: 'staff' }),
+    })
+      .then(function (res) { return res.json().then(function (b) { return { ok: res.ok, body: b }; }); })
+      .then(function (result) {
+        removeStaffTyping(typingId);
+        staffLoading = false;
+        updateStaffSend();
+
+        if (!result.ok) {
+          addStaffError(result.body.error || 'Something went wrong.');
+          return;
+        }
+
+        var reply = result.body.reply || '';
+        addStaffMessage(reply);
+        staffMessages.push({ role: 'assistant', content: reply });
+      })
+      .catch(function (err) {
+        removeStaffTyping(typingId);
+        staffLoading = false;
+        updateStaffSend();
+        addStaffError('Could not reach AI service.');
+      });
+  }
+
+  function updateStaffSend() {
+    var btn = document.getElementById('wsSend');
+    btn.disabled = staffLoading;
+    btn.textContent = staffLoading ? '…' : 'Send';
+  }
+
+  // ── Staff chat UI helpers ──────────────────────────────────────────────
+  function addStaffUserMessage(text) {
+    var div = document.createElement('div');
+    div.className = 'ws-msg user';
+    div.innerHTML = '<div class="ws-avatar">You</div><div class="ws-bubble">' + esc(text).replace(/\n/g, '<br>') + '</div>';
+    wsChatWindow().appendChild(div);
+    scrollWs();
+  }
+
+  function addStaffMessage(text) {
+    var div = document.createElement('div');
+    div.className = 'ws-msg ai';
+    div.innerHTML = '<div class="ws-avatar">AB</div><div class="ws-bubble">' + renderMd(text) + '</div>';
+    wsChatWindow().appendChild(div);
+    scrollWs();
+  }
+
+  function addStaffError(text) {
+    var div = document.createElement('div');
+    div.className = 'ws-msg ai';
+    div.innerHTML = '<div class="ws-avatar" style="background:#ef4444">!</div><div class="ws-bubble" style="background:#fef2f2;border-color:#fecaca;color:#991b1b">' + esc(text) + '</div>';
+    wsChatWindow().appendChild(div);
+    scrollWs();
+  }
+
+  var typingCounter = 0;
+  function addStaffTyping() {
+    var id = 'wstyping-' + (++typingCounter);
+    var div = document.createElement('div');
+    div.className = 'ws-msg ai';
+    div.id = id;
+    div.innerHTML = '<div class="ws-avatar">AB</div><div class="ws-bubble" style="padding:12px 15px"><span class="ws-typing-dot"></span><span class="ws-typing-dot"></span><span class="ws-typing-dot"></span></div>';
+    wsChatWindow().appendChild(div);
+    scrollWs();
+    return id;
+  }
+
+  function removeStaffTyping(id) {
+    var el = document.getElementById(id);
+    if (el) el.remove();
+  }
+
+  function wsChatWindow() { return document.getElementById('wsChatWindow'); }
+  function scrollWs() { var w = wsChatWindow(); w.scrollTop = w.scrollHeight; }
+
+  // ── Spend check ───────────────────────────────────────────────────────
+  var approvalLog = [];
+
+  window.runSpendCheck = function () {
+    var desc = document.getElementById('spendDesc').value.trim();
+    var amount = parseFloat(document.getElementById('spendAmount').value);
+    var site = document.getElementById('spendSite').value.trim();
+    var rationale = document.getElementById('spendRationale').value.trim();
+
+    var resultEl = document.getElementById('spendResult');
+
+    if (!desc || isNaN(amount) || amount <= 0) {
+      resultEl.innerHTML = '<div class="spend-result warn">Please enter an item description and amount.</div>';
+      return;
+    }
+
+    var formatted = '£' + amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    var result, cls, action;
+
+    if (amount <= 500) {
+      cls = 'ok';
+      result = formatted + ' — within unilateral authority (up to £500)';
+      action = 'No approval required. Log the spend and proceed.';
+    } else if (amount <= 2500) {
+      cls = 'warn';
+      result = formatted + ' — self-approve with rationale (£501–£2,500)';
+      action = 'No second sign-off needed. Log with written rationale.';
+    } else if (amount <= 5000) {
+      cls = 'block';
+      result = formatted + ' — CLIENT APPROVAL REQUIRED (£2,501–£5,000)';
+      action = 'Get written client approval BEFORE committing to this spend.';
+    } else {
+      cls = 'block';
+      result = formatted + ' — CLIENT APPROVAL + INTERNAL REVIEW REQUIRED (over £5,000)';
+      action = 'Client approval and internal review required before quoting or committing.';
+    }
+
+    resultEl.innerHTML = '<div class="spend-result ' + cls + '"><strong>' + esc(result) + '</strong><br>' + esc(action) + '</div>';
+
+    // Log it
+    var entry = {
+      ts: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+      desc: desc,
+      amount: formatted,
+      site: site || '—',
+      rationale: rationale || '—',
+      outcome: result,
+      cls: cls,
+    };
+    approvalLog.unshift(entry);
+    renderApprovalLog();
+  };
+
+  function renderApprovalLog() {
+    var el = document.getElementById('approvalLog');
+    if (approvalLog.length === 0) {
+      el.innerHTML = '<p style="color:var(--muted);font-size:.85rem">No approvals logged this session.</p>';
+      return;
+    }
+    el.innerHTML = approvalLog.map(function (e) {
+      return '<div style="border:1.5px solid var(--border);border-radius:9px;padding:12px 16px;margin-bottom:10px;font-size:.85rem">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px">' +
+        '<strong style="color:var(--navy)">' + esc(e.desc) + '</strong>' +
+        '<span style="color:var(--muted);white-space:nowrap;font-size:.8rem">' + esc(e.ts) + '</span></div>' +
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+        '<span><strong>' + esc(e.amount) + '</strong></span>' +
+        (e.site !== '—' ? '<span style="color:var(--muted)">📍 ' + esc(e.site) + '</span>' : '') +
+        '</div>' +
+        '<div style="margin-top:6px;color:' + (e.cls === 'ok' ? '#166534' : e.cls === 'warn' ? '#92400e' : '#991b1b') + '">' + esc(e.outcome) + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  // ── Markdown renderer ──────────────────────────────────────────────────
+  function renderMd(text) {
+    return text
+      .split('\n').map(function (line) {
+        line = line.replace(/^#{1,3}\s+(.*)/, '<strong>$1</strong>');
+        line = line.replace(/^[•\-\*]\s+/, '<li>');
+        line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        line = line.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.85em">$1</code>');
+        return line;
+      })
+      .join('\n')
+      .replace(/(<li>.*\n?)+/g, function (m) { return '<ul>' + m + '</ul>'; })
+      .split('\n')
+      .map(function (line) {
+        if (!line || line.startsWith('<ul>') || line.startsWith('<li>') || line.startsWith('<strong>')) {
+          return line || '';
+        }
+        return '<p>' + line + '</p>';
+      })
+      .join('')
+      .replace(/<p><\/p>/g, '');
+  }
+
+  function esc(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+})();
+</script>
+</body>
+</html>
