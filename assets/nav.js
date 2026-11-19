@@ -30,13 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
     menu.className = 'nav-dropdown-menu';
     menu.setAttribute('role', 'menu');
     var linkDefs = [
+      { href: '/divisions/ab-group/',                  label: 'AB Group' },
+      null, // hr
       { href: '/divisions/ab-facilities-consultants/', label: 'AB Facilities Consultants' },
-      null, // hr
-      { href: '/divisions/ab-cleaning/',   label: 'AB Cleaning' },
-      { href: '/divisions/ab-technical/',  label: 'AB Technical' },
-      { href: '/divisions/ab-property/',   label: 'AB Property' },
-      null, // hr
-      { href: '/divisions/ab-group/',      label: 'AB Group' }
+      { href: '/divisions/ab-cleaning/',               label: 'AB Cleaning' },
+      { href: '/divisions/ab-technical/',              label: 'AB Technical' },
+      { href: '/divisions/ab-property/',               label: 'AB Property' }
     ];
     linkDefs.forEach(function (def) {
       if (!def) {

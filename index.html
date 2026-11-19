@@ -55,7 +55,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="site">
   <div class="container nav-row">
     <a href="/" class="logo"><img src="/assets/logo-white.png" alt="AB Facilities Consultants" style="height:44px;display:block"></a>
-    <nav class="main" id="site-nav"><a href="/" class="active">Home</a><a href="/services/" class="">Services</a><a href="/packages/" class="">Packages</a><a href="/industries/" class="">Sectors</a><a href="/divisions/">Divisions</a><a href="/about/" class="">About</a><a href="/blog/" class="">Blog</a><a href="/contact/" class="">Contact</a></nav>
+    <nav class="main" id="site-nav"><a href="/" class="active">Home</a><a href="/services/">Services</a><a href="/industries/">Sectors</a><a href="/packages/">Pricing</a><a href="/divisions/">Divisions</a><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/contact/">Contact</a></nav>
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
     <div class="nav-cta">
       <a class="phone" href="tel:+447944308462">07944 308462</a>
@@ -216,18 +216,124 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 
-<section style="background:#f0fdf9;border-top:1px solid #c6f0e8;border-bottom:1px solid #c6f0e8">
-  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
-    <div>
-      <div class="section-eyebrow">AI Assistant</div>
-      <h2 style="margin-bottom:8px">Get Instant FM Guidance</h2>
-      <p style="color:var(--muted);max-width:520px;margin:0">Ask a facilities question, get a site checklist, start a quote or report a fault — available 24/7, no call needed.</p>
+<section id="ai-assistant" style="background:#f0fdf9;border-top:1px solid #c6f0e8;border-bottom:1px solid #c6f0e8">
+  <div class="container">
+    <div class="section-eyebrow">AI Assistant</div>
+    <h2 style="margin-bottom:8px">Get Instant FM Guidance</h2>
+    <p style="color:var(--muted);max-width:600px;margin:0 0 28px">Ask a facilities question, get a site checklist, start a quote or report a fault — available 24/7, no call needed.</p>
+    <div id="ai-chat-widget" style="max-width:720px;border:1px solid #c6f0e8;border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 2px 16px rgba(14,127,116,.08)">
+      <div style="background:var(--navy);padding:14px 20px;display:flex;align-items:center;gap:12px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="white"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-5h2v2h-2zm0-8h2v6h-2z" fill="rgba(255,255,255,0)"/></svg>
+        </div>
+        <div>
+          <div style="color:#fff;font-weight:700;font-size:.95rem">AB Facilities AI Assistant</div>
+          <div style="color:rgba(255,255,255,.65);font-size:.78rem">Ask about FM compliance, services, pricing or report a fault</div>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
+          <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:block"></span>
+          <span style="color:rgba(255,255,255,.65);font-size:.78rem">Online</span>
+        </div>
+      </div>
+      <div id="ai-messages" style="height:320px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px">
+        <div class="ai-msg ai-msg--bot" style="display:flex;gap:10px;align-items:flex-start">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+          </div>
+          <div style="background:#f0fdf9;border:1px solid #c6f0e8;border-radius:0 10px 10px 10px;padding:10px 14px;max-width:88%;font-size:.9rem;line-height:1.5;color:var(--text)">
+            Hi, I'm the AB Facilities AI assistant. I can help with:<br><br>
+            🏢 <strong>FM compliance questions</strong> — fire safety, legionella, EICR and more<br>
+            📋 <strong>Site checklists</strong> — tailored to your sector<br>
+            💷 <strong>Pricing guidance</strong> — FM management fees and services<br>
+            🔧 <strong>Fault reporting</strong> — log and describe a site issue<br><br>
+            What can I help you with today?
+          </div>
+        </div>
+      </div>
+      <div style="padding:14px 16px;border-top:1px solid #e2e8f0;display:flex;gap:10px;background:#fafafa">
+        <input id="ai-input" type="text" placeholder="Ask a facilities question…" style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:inherit;outline:none;background:#fff" autocomplete="off">
+        <button id="ai-send" type="button" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-weight:700;font-size:.9rem;cursor:pointer;white-space:nowrap" aria-label="Send message">Send →</button>
+      </div>
+      <div style="padding:8px 16px 10px;background:#fafafa;border-top:1px solid #f1f5f9;display:flex;flex-wrap:wrap;gap:8px">
+        <button class="ai-quick" data-q="What FM compliance checks are due this year?" style="background:#fff;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:.8rem;cursor:pointer;color:var(--navy);font-family:inherit">Compliance checks</button>
+        <button class="ai-quick" data-q="What are your FM management fees?" style="background:#fff;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:.8rem;cursor:pointer;color:var(--navy);font-family:inherit">Pricing</button>
+        <button class="ai-quick" data-q="I need to report a fault at my site" style="background:#fff;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:.8rem;cursor:pointer;color:var(--navy);font-family:inherit">Report a fault</button>
+        <button class="ai-quick" data-q="Can you give me a fire safety checklist for my building?" style="background:#fff;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:.8rem;cursor:pointer;color:var(--navy);font-family:inherit">Fire safety checklist</button>
+      </div>
     </div>
-    <div style="flex-shrink:0">
-      <a class="btn" href="/ai-assistant/" style="font-size:1rem;padding:14px 28px">Try the AI Assistant →</a>
-    </div>
+    <p style="margin-top:14px;font-size:.82rem;color:var(--muted)">For complex enquiries, urgent issues or to speak with Adam directly — <a href="/contact/" style="color:var(--accent);font-weight:600">use the contact form</a> or call <a href="tel:+447944308462" style="color:var(--accent);font-weight:600">07944 308462</a>.</p>
   </div>
 </section>
+<script>
+(function () {
+  var messagesEl = document.getElementById('ai-messages');
+  var input = document.getElementById('ai-input');
+  var sendBtn = document.getElementById('ai-send');
+  var quickBtns = document.querySelectorAll('.ai-quick');
+  if (!messagesEl || !input || !sendBtn) return;
+
+  var knowledgeBase = [
+    { keys: ['price','pricing','cost','fee','package','how much','£','pound'], answer: 'FM management fees start at <strong>£695/month</strong> (Essential, ~10 hrs). Professional is £1,495/month (~23 hrs) and Enterprise is £2,495/month (~35 hrs). Multi-site portfolio work from £5,000/month. The management fee covers AB\'s time only — specialist service costs are confirmed separately in writing before work starts. No VAT.<br><br><a href="/packages/" style="color:var(--accent);font-weight:600">See full pricing →</a>' },
+    { keys: ['compliance','statutory','fire','legionella','eicr','gas','asbestos','l8','water','audit','check'], answer: 'Key statutory compliance areas we cover include: Fire risk assessment, EICR (electrical installation condition reports), gas safety, legionella/L8 water hygiene, asbestos management, PAT testing and LOLER/PUWER where applicable.<br><br>If you\'re not sure what\'s due, a <strong>Compliance Audit (£495–£750/site)</strong> is the usual starting point — a full site review with a prioritised action plan.<br><br><a href="/services/" style="color:var(--accent);font-weight:600">View all services →</a>' },
+    { keys: ['fault','report','issue','broken','problem','emergency','urgent'], answer: 'To report a site fault, please use our contact form with details of the issue — location, what\'s affected and urgency level. We coordinate with contractors for resolution and can dispatch directly for clients on managed contracts.<br><br><a href="/contact/" style="color:var(--accent);font-weight:600">Report a fault →</a><br><br>For urgent issues: <a href="tel:+447944308462" style="color:var(--accent)">07944 308462</a>' },
+    { keys: ['fire safety','fire risk','fire checklist'], answer: 'A basic fire safety checklist for commercial premises:<br><br>✅ Fire risk assessment in place and reviewed annually<br>✅ Fire detection and alarm system tested weekly and serviced 6-monthly<br>✅ Emergency lighting tested monthly and annually<br>✅ Fire extinguishers serviced annually<br>✅ Fire doors self-closing and undamaged<br>✅ Escape routes clear and signposted<br>✅ Staff fire training within last 12 months<br>✅ Fire drill carried out within last 12 months<br><br>Need a full site review? <a href="/quote/" style="color:var(--accent);font-weight:600">Request a proposal →</a>' },
+    { keys: ['sector','school','academy','care home','housing','landlord','industrial','charity','office'], answer: 'We work with organisations across 20+ sectors in the North West, including schools and academies, housing associations, commercial landlords, industrial premises, care homes, charities, sports clubs and community centres.<br><br><a href="/industries/" style="color:var(--accent);font-weight:600">See all sectors →</a>' },
+    { keys: ['area','location','where','north west','liverpool','merseyside','manchester','cheshire'], answer: 'We cover the North West of England — Liverpool and Merseyside, Manchester, Cheshire, Lancashire and Warrington. For sites within 25 road miles of our Bootle base, travel for scheduled visits is included in your package.' },
+    { keys: ['quote','proposal','enquire','start','begin','contact','get in touch'], answer: 'To get a proposal, use our quick quote form — we\'ll come back to you within two working days with a written proposal covering scope, included hours and fees.<br><br><a href="/quote/" style="color:var(--accent);font-weight:600">Get a Quote →</a><br><br>Or call Adam directly: <a href="tel:+447944308462" style="color:var(--accent)">07944 308462</a>' },
+    { keys: ['ab group','ab cleaning','ab technical','ab property','division'], answer: 'The AB Group structure includes five identities:<br><br>🏢 <strong>AB Group</strong> — the group parent identity<br>🔑 <strong>AB Facilities Consultants</strong> — the FM consultancy (active trading business)<br>🧹 <strong>AB Cleaning</strong> — commercial cleaning services<br>⚙️ <strong>AB Technical</strong> — electrical, mechanical and HVAC<br>🏠 <strong>AB Property</strong> — property management and landlord services<br><br><a href="/divisions/" style="color:var(--accent);font-weight:600">View all divisions →</a>' },
+    { keys: ['insurance','indemnity','insured','liability','pi','pl','hiscox'], answer: 'AB Facilities Consultants holds insurance through Hiscox:<br>• Professional Indemnity: £2m per claim<br>• Public Liability: £5m per claim<br>• Employers\' Liability: £5m<br>• Cyber: £100k aggregate<br><br>A certificate is available on request.' },
+    { keys: ['vat','tax','registered'], answer: 'AB Facilities Consultants is not VAT-registered. All prices shown are the full amount payable — no VAT is added.' }
+  ];
+
+  function addMessage(text, isUser) {
+    var wrapper = document.createElement('div');
+    wrapper.style.cssText = 'display:flex;gap:10px;align-items:flex-start' + (isUser ? ';flex-direction:row-reverse' : '');
+    var avatar = document.createElement('div');
+    avatar.style.cssText = 'width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;font-size:.75rem;font-weight:700;color:#fff;background:' + (isUser ? '#64748b' : 'var(--accent)');
+    avatar.textContent = isUser ? 'You' : 'AB';
+    var bubble = document.createElement('div');
+    bubble.style.cssText = 'border-radius:' + (isUser ? '10px 0 10px 10px' : '0 10px 10px 10px') + ';padding:10px 14px;max-width:88%;font-size:.9rem;line-height:1.5;' + (isUser ? 'background:var(--navy);color:#fff' : 'background:#f0fdf9;border:1px solid #c6f0e8;color:var(--text)');
+    bubble.innerHTML = text;
+    wrapper.appendChild(avatar);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return wrapper;
+  }
+
+  function getAnswer(q) {
+    var lower = q.toLowerCase();
+    for (var i = 0; i < knowledgeBase.length; i++) {
+      var entry = knowledgeBase[i];
+      for (var j = 0; j < entry.keys.length; j++) {
+        if (lower.indexOf(entry.keys[j]) !== -1) return entry.answer;
+      }
+    }
+    return 'Thanks for your question. For the most accurate answer, please <a href="/contact/" style="color:var(--accent);font-weight:600">send us a message</a> or call <a href="tel:+447944308462" style="color:var(--accent)">07944 308462</a> and Adam will come back to you within two working days.<br><br>Or browse: <a href="/services/" style="color:var(--accent)">Services</a> · <a href="/packages/" style="color:var(--accent)">Pricing</a> · <a href="/divisions/" style="color:var(--accent)">Divisions</a>';
+  }
+
+  function handleSend() {
+    var q = input.value.trim();
+    if (!q) return;
+    input.value = '';
+    addMessage(q, true);
+    var typingEl = addMessage('<em style="color:var(--muted)">Typing…</em>', false);
+    setTimeout(function () {
+      typingEl.querySelector('div:last-child').innerHTML = getAnswer(q);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }, 600);
+  }
+
+  sendBtn.addEventListener('click', handleSend);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') handleSend(); });
+  quickBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      input.value = btn.dataset.q;
+      handleSend();
+    });
+  });
+})();
+</script>
 
 <section style="background:var(--bg)">
   <div class="container">
