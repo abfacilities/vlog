@@ -838,6 +838,46 @@
     document.querySelector('.progress-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  // ── URL param pre-selection (runs after goToStep is defined) ──
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var pkg = params.get('package');
+    var svc = params.get('service');
+
+    var pkgMap = {
+      'essential':    'Essential — from £695/month',
+      'professional': 'Professional — from £1,495/month',
+      'enterprise':   'Enterprise — from £2,495/month',
+      'multisite':    'Multi-Site FM — from £5,000/month',
+      'audit':        'One-off consultancy',
+      'review':       'One-off consultancy',
+      'portfolio':    'One-off consultancy',
+      'procurement':  'One-off consultancy',
+      'interim':      'One-off consultancy'
+    };
+
+    if (pkg && pkgMap[pkg]) {
+      document.querySelectorAll('input[name="packageInterest"]').forEach(function (r) {
+        if (r.value === pkgMap[pkg]) {
+          r.checked = true;
+          r.closest('.pkg-card').classList.add('selected');
+        }
+      });
+      goToStep(2);
+    }
+
+    if (svc) {
+      var lower = svc.toLowerCase();
+      document.querySelectorAll('input[name="services"]').forEach(function (cb) {
+        if (cb.value.toLowerCase().indexOf(lower) !== -1) {
+          cb.checked = true;
+          cb.closest('.service-check').classList.add('checked');
+        }
+      });
+      if (!pkg) goToStep(2);
+    }
+  })();
+
   function collectStep(step) {
     if (step === 1) {
       formData.sector = document.getElementById('sector').value;

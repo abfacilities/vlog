@@ -17,28 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var menu = document.createElement('div');
     menu.className = 'nav-dropdown-menu';
     menu.innerHTML =
-      '<a href="/divisions/ab-facilities-consultants/">' +
-        'AB Facilities Consultants' +
-        '<span class="dd-status dd-active">Active</span>' +
-      '</a>' +
+      '<a href="/divisions/ab-facilities-consultants/">AB Facilities Consultants</a>' +
       '<hr>' +
-      '<a href="/divisions/ab-cleaning/">' +
-        'AB Cleaning' +
-        '<span class="dd-status dd-active">Active</span>' +
-      '</a>' +
-      '<a href="/divisions/ab-technical/">' +
-        'AB Technical' +
-        '<span class="dd-status dd-active">Active</span>' +
-      '</a>' +
-      '<a href="/divisions/ab-property/">' +
-        'AB Property' +
-        '<span class="dd-status dd-active">Active</span>' +
-      '</a>' +
+      '<a href="/divisions/ab-cleaning/">AB Cleaning</a>' +
+      '<a href="/divisions/ab-technical/">AB Technical</a>' +
+      '<a href="/divisions/ab-property/">AB Property</a>' +
       '<hr>' +
-      '<a href="/divisions/ab-group/">' +
-        'AB Group' +
-        '<span class="dd-status dd-future">Future</span>' +
-      '</a>';
+      '<a href="/divisions/ab-group/">AB Group</a>';
     wrapper.appendChild(menu);
 
     // Mobile: tap Divisions link to toggle dropdown sub-items
