@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
       '<hr>' +
       '<a href="/divisions/ab-cleaning/">' +
         'AB Cleaning' +
-        '<span class="dd-status dd-dev">Dev</span>' +
+        '<span class="dd-status dd-active">Active</span>' +
       '</a>' +
       '<a href="/divisions/ab-technical/">' +
         'AB Technical' +
-        '<span class="dd-status dd-dev">Dev</span>' +
+        '<span class="dd-status dd-active">Active</span>' +
       '</a>' +
       '<a href="/divisions/ab-property/">' +
         'AB Property' +
-        '<span class="dd-status dd-dev">Dev</span>' +
+        '<span class="dd-status dd-active">Active</span>' +
       '</a>' +
       '<hr>' +
       '<a href="/divisions/ab-group/">' +
