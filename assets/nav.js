@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
     menu.className = 'nav-dropdown-menu';
     menu.setAttribute('role', 'menu');
     var linkDefs = [
+      { href: '/divisions/', label: 'Our Divisions', mobileOnly: true },
+      null, // hr — mobile only separator
       { href: '/divisions/ab-group/',                  label: 'AB Group' },
       null, // hr
       { href: '/divisions/ab-facilities-consultants/', label: 'AB Facilities Consultants' },
@@ -37,15 +39,25 @@ document.addEventListener('DOMContentLoaded', function () {
       { href: '/divisions/ab-technical/',              label: 'AB Technical' },
       { href: '/divisions/ab-property/',               label: 'AB Property' }
     ];
-    linkDefs.forEach(function (def) {
+    var prevWasMobileOnly = false;
+    linkDefs.forEach(function (def, i) {
       if (!def) {
+        // If the previous item was mobileOnly, make this hr mobileOnly too
         var hr = document.createElement('hr');
+        if (prevWasMobileOnly) hr.className = 'mobile-only';
         menu.appendChild(hr);
+        prevWasMobileOnly = false;
       } else {
         var a = document.createElement('a');
         a.href = def.href;
         a.textContent = def.label;
         a.setAttribute('role', 'menuitem');
+        if (def.mobileOnly) {
+          a.className = 'mobile-only';
+          prevWasMobileOnly = true;
+        } else {
+          prevWasMobileOnly = false;
+        }
         menu.appendChild(a);
       }
     });

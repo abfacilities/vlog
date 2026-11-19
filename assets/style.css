@@ -80,6 +80,8 @@ nav.main .nav-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:9
 nav.main .nav-dropdown-menu a:hover,nav.main .nav-dropdown-menu a:focus{background:#f0fdf4;color:var(--accent);outline:none}
 .nav-dropdown-menu hr{border:none;border-top:1px solid #f1f5f9;margin:4px 0}
 .nav-dropdown.open .nav-dropdown-menu{display:block}
+/* Hide mobile-only items on desktop */
+.nav-dropdown-menu a.mobile-only,.nav-dropdown-menu hr.mobile-only{display:none}
 @media (max-width:860px){
   .nav-dropdown{display:flex;width:100%;align-items:center}
   .nav-dropdown-arrow{color:rgba(255,255,255,.7);padding:4px 6px}
@@ -89,6 +91,9 @@ nav.main .nav-dropdown-menu a:hover,nav.main .nav-dropdown-menu a:focus{backgrou
   nav.main .nav-dropdown-menu a:hover,nav.main .nav-dropdown-menu a:focus{background:transparent;color:#fff}
   .nav-dropdown.open .nav-dropdown-menu{display:block}
   .nav-dropdown-menu hr{border-color:rgba(255,255,255,.12)}
+  /* Show mobile-only items on mobile */
+  .nav-dropdown-menu a.mobile-only{display:flex}
+  .nav-dropdown-menu hr.mobile-only{display:block}
 }
 
 /* --- Mobile nav + responsive fixes (2026-08-19) --- */

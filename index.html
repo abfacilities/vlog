@@ -117,6 +117,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section style="background:var(--bg)">
   <div class="container">
+    <div class="section-eyebrow">Who We Work With</div>
+    <h2>Sectors We Serve</h2>
+    <p style="color:var(--muted);max-width:640px">From an SME or commercial landlord to a school or community organisation &mdash; we understand the facilities challenges specific to your sector.</p>
+    <div class="sector-grid">
+      <a class="sector-pill" href="/sectors/">&#128188; SMEs</a>
+      <a class="sector-pill" href="/sectors/">&#127970; Commercial Landlords</a>
+      <a class="sector-pill" href="/sectors/">&#127981; Industrial Units</a>
+      <a class="sector-pill" href="/sectors/">&#128273; Housing Associations</a>
+      <a class="sector-pill" href="/sectors/">&#127979; Schools &amp; Academies</a>
+      <a class="sector-pill" href="/sectors/">&#127963;&#65039; Multi-Academy Trusts</a>
+      <a class="sector-pill" href="/sectors/">&#127968; Community Centres</a>
+      <a class="sector-pill" href="/sectors/">&#9917; Sports Clubs</a>
+      <a class="sector-pill" href="/sectors/">&#128156; Charities &amp; Third Sector</a>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg)">
+  <div class="container">
     <div class="section-eyebrow">Recent Work</div>
     <h2>The Kind of Work We Do</h2>
     <p style="color:var(--muted);max-width:640px">A flavour of typical engagements across our client base. <a href="/contact/">Ask for references</a> from current clients in your sector.</p>
@@ -152,7 +171,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px">Entry level</div>
         <h3>Essential</h3>
         <div style="font-size:1.5rem;font-weight:800;color:var(--navy)">&pound;695 <span style="font-size:.8rem;font-weight:600;color:var(--muted)">/ month</span></div>
-        <p style="font-size:.88rem;color:var(--muted)">~15 hrs management time. 1 scheduled site visit per month. Monthly compliance report.</p>
+        <p style="font-size:.88rem;color:var(--muted)">~10 hrs management time. 1 scheduled site visit per month. Monthly compliance report.</p>
         <a class="btn" href="/quote/" style="width:100%;text-align:center;display:block">Request a proposal</a>
       </div>
       <div class="card" style="border:2px solid var(--navy)">
@@ -195,26 +214,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </section>
-
-<section style="background:var(--bg)">
-  <div class="container">
-    <div class="section-eyebrow">Who We Work With</div>
-    <h2>Sectors We Serve</h2>
-    <p style="color:var(--muted);max-width:640px">From an SME or commercial landlord to a school or community organisation &mdash; we understand the facilities challenges specific to your sector.</p>
-    <div class="sector-grid">
-      <a class="sector-pill" href="/sectors/">&#128188; SMEs</a>
-      <a class="sector-pill" href="/sectors/">&#127970; Commercial Landlords</a>
-      <a class="sector-pill" href="/sectors/">&#127981; Industrial Units</a>
-      <a class="sector-pill" href="/sectors/">&#128273; Housing Associations</a>
-      <a class="sector-pill" href="/sectors/">&#127979; Schools &amp; Academies</a>
-      <a class="sector-pill" href="/sectors/">&#127963;&#65039; Multi-Academy Trusts</a>
-      <a class="sector-pill" href="/sectors/">&#127968; Community Centres</a>
-      <a class="sector-pill" href="/sectors/">&#9917; Sports Clubs</a>
-      <a class="sector-pill" href="/sectors/">&#128156; Charities &amp; Third Sector</a>
-    </div>
-  </div>
-</section>
-
 
 <section id="ai-assistant" style="background:#f0fdf9;border-top:1px solid #c6f0e8;border-bottom:1px solid #c6f0e8">
   <div class="container">
@@ -335,118 +334,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 
-<section style="background:var(--bg)">
-  <div class="container">
-    <div class="section-eyebrow">Stay Informed</div>
-    <h2>Get Compliance Updates in Your Inbox</h2>
-    <p style="color:var(--muted);max-width:560px">Occasional emails when a new deadline, guidance update or regulation lands &mdash; no spam, unsubscribe any time.</p>
-    <form id="newsletter-form" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;max-width:480px">
-      <input type="email" id="newsletter-email" name="email" required placeholder="you@yourorganisation.org.uk" style="flex:1;min-width:220px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:1rem">
-      <input type="text" name="bot-field" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off">
-      <button type="submit" class="btn">Subscribe</button>
-    </form>
-    <p id="newsletter-form-status" style="margin-top:8px;font-size:.88rem"></p>
-  </div>
-</section>
-
-<script>
-(function () {
-  var form = document.getElementById('newsletter-form');
-  var status = document.getElementById('newsletter-form-status');
-  if (!form) return;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var btn = form.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    status.style.color = 'var(--muted)';
-    status.textContent = 'Sending...';
-    fetch('/api/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: form.email.value,
-        source: 'newsletter',
-        'bot-field': form['bot-field'].value
-      })
-    })
-      .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
-      .then(function (result) {
-        btn.disabled = false;
-        if (result.ok) {
-          status.style.color = 'var(--accent)';
-          status.textContent = 'Thanks, you\'re on the list.';
-          form.reset();
-        } else {
-          status.style.color = '#b3261e';
-          status.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
-        }
-      })
-      .catch(function () {
-        btn.disabled = false;
-        status.style.color = '#b3261e';
-        status.textContent = 'Something went wrong. Please try again or email contact@abfacilities.com.';
-      });
-  });
-})();
-</script>
-
-<script>
-(function () {
-  var form = document.getElementById('enquiry-form');
-  if (!form) return;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var btn = document.getElementById('enq-btn');
-    var status = document.getElementById('enq-status');
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    status.textContent = '';
-    status.style.color = '';
-    var payload = {
-      'bot-field': document.getElementById('enquiry-bot').value,
-      name: document.getElementById('enq-name').value,
-      email: document.getElementById('enq-email').value,
-      phone: document.getElementById('enq-phone').value,
-      company: document.getElementById('enq-company').value,
-      sector: document.getElementById('enq-sector').value,
-      service: document.getElementById('enq-service').value,
-      numPremises: document.getElementById('enq-premises').value,
-      description: document.getElementById('enq-desc').value
-    };
-    if (!payload.name.trim() || !payload.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
-      btn.disabled = false;
-      btn.textContent = 'Request a Facilities Management Consultation';
-      status.style.color = '#c0392b';
-      status.textContent = 'Please enter your name and a valid email address.';
-      return;
-    }
-    fetch('/api/enquiry', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-      .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
-      .then(function (result) {
-        btn.disabled = false;
-        btn.textContent = 'Request a Facilities Management Consultation';
-        if (result.ok) {
-          form.style.display = 'none';
-          document.getElementById('enq-success').style.display = 'block';
-        } else {
-          status.style.color = '#c0392b';
-          status.textContent = (result.body && result.body.error) || 'Something went wrong. Please call 07944 308462.';
-        }
-      })
-      .catch(function () {
-        btn.disabled = false;
-        btn.textContent = 'Request a Facilities Management Consultation';
-        status.style.color = '#c0392b';
-        status.textContent = 'Something went wrong. Please try again or call 07944 308462.';
-      });
-  });
-})();
-</script>
-
 <section id="consultation" style="background:var(--navy);padding:64px 0">
   <style>
     @media (max-width:760px) {
@@ -552,6 +439,118 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </section>
+
+<script>
+(function () {
+  var form = document.getElementById('enquiry-form');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = document.getElementById('enq-btn');
+    var status = document.getElementById('enq-status');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    status.textContent = '';
+    status.style.color = '';
+    var payload = {
+      'bot-field': document.getElementById('enquiry-bot').value,
+      name: document.getElementById('enq-name').value,
+      email: document.getElementById('enq-email').value,
+      phone: document.getElementById('enq-phone').value,
+      company: document.getElementById('enq-company').value,
+      sector: document.getElementById('enq-sector').value,
+      service: document.getElementById('enq-service').value,
+      numPremises: document.getElementById('enq-premises').value,
+      description: document.getElementById('enq-desc').value
+    };
+    if (!payload.name.trim() || !payload.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      btn.disabled = false;
+      btn.textContent = 'Request a Facilities Management Consultation';
+      status.style.color = '#c0392b';
+      status.textContent = 'Please enter your name and a valid email address.';
+      return;
+    }
+    fetch('/api/enquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
+      .then(function (result) {
+        btn.disabled = false;
+        btn.textContent = 'Request a Facilities Management Consultation';
+        if (result.ok) {
+          form.style.display = 'none';
+          document.getElementById('enq-success').style.display = 'block';
+        } else {
+          status.style.color = '#c0392b';
+          status.textContent = (result.body && result.body.error) || 'Something went wrong. Please call 07944 308462.';
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Request a Facilities Management Consultation';
+        status.style.color = '#c0392b';
+        status.textContent = 'Something went wrong. Please try again or call 07944 308462.';
+      });
+  });
+})();
+</script>
+
+<section style="background:var(--bg)">
+  <div class="container">
+    <div class="section-eyebrow">Stay Informed</div>
+    <h2>Get Compliance Updates in Your Inbox</h2>
+    <p style="color:var(--muted);max-width:560px">Occasional emails when a new deadline, guidance update or regulation lands &mdash; no spam, unsubscribe any time.</p>
+    <form id="newsletter-form" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;max-width:480px">
+      <input type="email" id="newsletter-email" name="email" required placeholder="you@yourorganisation.org.uk" style="flex:1;min-width:220px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:1rem">
+      <input type="text" name="bot-field" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off">
+      <button type="submit" class="btn">Subscribe</button>
+    </form>
+    <p id="newsletter-form-status" style="margin-top:8px;font-size:.88rem"></p>
+  </div>
+</section>
+
+<script>
+(function () {
+  var form = document.getElementById('newsletter-form');
+  var status = document.getElementById('newsletter-form-status');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    status.style.color = 'var(--muted)';
+    status.textContent = 'Sending...';
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: form.email.value,
+        source: 'newsletter',
+        'bot-field': form['bot-field'].value
+      })
+    })
+      .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+      .then(function (result) {
+        btn.disabled = false;
+        if (result.ok) {
+          status.style.color = 'var(--accent)';
+          status.textContent = 'Thanks, you\'re on the list.';
+          form.reset();
+        } else {
+          status.style.color = '#b3261e';
+          status.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        status.style.color = '#b3261e';
+        status.textContent = 'Something went wrong. Please try again or email contact@abfacilities.com.';
+      });
+  });
+})();
+</script>
 
 <section class="cta-band">
   <div class="container">
