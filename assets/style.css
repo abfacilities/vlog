@@ -65,31 +65,30 @@ footer.site .bottom{border-top:1px solid #1e3a5f;margin-top:32px;padding-top:20p
 .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(28,125,128,.15)}
 
 /* --- Divisions dropdown nav (2026-11-19) --- */
-.nav-dropdown{position:relative;display:inline-block}
-.nav-dropdown>a{display:inline-flex;align-items:center;gap:4px}
-.nav-dropdown>a::after{content:'';display:inline-block;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid rgba(255,255,255,.7);margin-top:1px;transition:transform .2s}
-.nav-dropdown:hover>a::after,.nav-dropdown.open>a::after{transform:rotate(180deg)}
-/* Menu sits 2px below the trigger; a ::before bridge fills that gap so hover never breaks */
+.nav-dropdown{position:relative;display:inline-flex;align-items:center;gap:0}
+/* Divisions link — plain nav link, navigates to /divisions/ on desktop */
+.nav-dropdown>a{display:inline-flex;align-items:center}
+/* Separate arrow button owns open/close — no chevron on the <a> */
+.nav-dropdown-arrow{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);padding:2px 4px;display:inline-flex;align-items:center;line-height:1;transition:color .15s;margin-left:2px}
+.nav-dropdown-arrow:hover{color:#fff}
+.nav-dropdown-arrow svg{transition:transform .2s}
+.nav-dropdown.open .nav-dropdown-arrow svg,.nav-dropdown-arrow[aria-expanded="true"] svg{transform:rotate(180deg)}
+/* Menu sits 2px below the trigger row; a ::before bridge fills that gap so hover never breaks */
 .nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 2px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:220px;z-index:100;padding:6px 0}
 .nav-dropdown-menu::before{content:'';position:absolute;top:-8px;left:0;right:0;height:8px}
 nav.main .nav-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:9px 16px;color:var(--navy);font-size:.9rem;font-weight:600;white-space:nowrap;margin:0;transition:background .15s}
 nav.main .nav-dropdown-menu a:hover,nav.main .nav-dropdown-menu a:focus{background:#f0fdf4;color:var(--accent);outline:none}
-.nav-dropdown-menu .dd-status{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:10px;margin-left:auto}
-.dd-active{background:#d1fae5;color:#065f46}
-.dd-dev{background:#fef3c7;color:#92400e}
-.dd-future{background:#ede9fe;color:#5b21b6}
 .nav-dropdown-menu hr{border:none;border-top:1px solid #f1f5f9;margin:4px 0}
-.nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown.open .nav-dropdown-menu{display:block}
+.nav-dropdown.open .nav-dropdown-menu{display:block}
 @media (max-width:860px){
-  .nav-dropdown{display:block;width:100%}
-  .nav-dropdown>a::after{display:none}
-  .nav-dropdown-menu{display:none;position:static;transform:none;box-shadow:none;border:none;background:transparent;padding:0 0 0 12px;min-width:0;border-radius:0;top:auto}
+  .nav-dropdown{display:flex;width:100%;align-items:center}
+  .nav-dropdown-arrow{color:rgba(255,255,255,.7);padding:4px 6px}
+  .nav-dropdown-menu{display:none;position:static;transform:none;box-shadow:none;border:none;background:transparent;padding:0 0 0 12px;min-width:0;border-radius:0;top:auto;width:100%}
   .nav-dropdown-menu::before{display:none}
   nav.main .nav-dropdown-menu a{color:rgba(255,255,255,.75);padding:5px 0;font-size:.88rem;font-weight:500}
   nav.main .nav-dropdown-menu a:hover,nav.main .nav-dropdown-menu a:focus{background:transparent;color:#fff}
   .nav-dropdown.open .nav-dropdown-menu{display:block}
   .nav-dropdown-menu hr{border-color:rgba(255,255,255,.12)}
-  .dd-status{display:none}
 }
 
 /* --- Mobile nav + responsive fixes (2026-08-19) --- */

@@ -6,43 +6,65 @@ document.addEventListener('DOMContentLoaded', function () {
   // --- Build Divisions dropdown ---
   var divisionsLink = nav.querySelector('a[href="/divisions/"]');
   if (divisionsLink) {
+
+    // 1. Create the wrapper
     var wrapper = document.createElement('div');
     wrapper.className = 'nav-dropdown';
-    wrapper.setAttribute('role', 'navigation');
-    wrapper.setAttribute('aria-label', 'Divisions menu');
 
-    // Move the existing Divisions anchor into wrapper
+    // 2. Move the existing "Divisions" anchor into wrapper (it stays a plain link)
     divisionsLink.parentNode.insertBefore(wrapper, divisionsLink);
-    divisionsLink.setAttribute('aria-haspopup', 'true');
-    divisionsLink.setAttribute('aria-expanded', 'false');
     wrapper.appendChild(divisionsLink);
 
-    // Build dropdown menu
+    // 3. Create a separate arrow button that owns the open/close behaviour
+    var arrowBtn = document.createElement('button');
+    arrowBtn.type = 'button';
+    arrowBtn.className = 'nav-dropdown-arrow';
+    arrowBtn.setAttribute('aria-label', 'Open divisions menu');
+    arrowBtn.setAttribute('aria-expanded', 'false');
+    arrowBtn.setAttribute('aria-haspopup', 'true');
+    arrowBtn.innerHTML = '<svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor" aria-hidden="true"><path d="M0 0l5 6 5-6z"/></svg>';
+    wrapper.appendChild(arrowBtn);
+
+    // 4. Build dropdown menu
     var menu = document.createElement('div');
     menu.className = 'nav-dropdown-menu';
     menu.setAttribute('role', 'menu');
-    menu.innerHTML =
-      '<a href="/divisions/ab-facilities-consultants/" role="menuitem" tabindex="-1">AB Facilities Consultants</a>' +
-      '<hr>' +
-      '<a href="/divisions/ab-cleaning/" role="menuitem" tabindex="-1">AB Cleaning</a>' +
-      '<a href="/divisions/ab-technical/" role="menuitem" tabindex="-1">AB Technical</a>' +
-      '<a href="/divisions/ab-property/" role="menuitem" tabindex="-1">AB Property</a>' +
-      '<hr>' +
-      '<a href="/divisions/ab-group/" role="menuitem" tabindex="-1">AB Group</a>';
+    var linkDefs = [
+      { href: '/divisions/ab-facilities-consultants/', label: 'AB Facilities Consultants' },
+      null, // hr
+      { href: '/divisions/ab-cleaning/',   label: 'AB Cleaning' },
+      { href: '/divisions/ab-technical/',  label: 'AB Technical' },
+      { href: '/divisions/ab-property/',   label: 'AB Property' },
+      null, // hr
+      { href: '/divisions/ab-group/',      label: 'AB Group' }
+    ];
+    linkDefs.forEach(function (def) {
+      if (!def) {
+        var hr = document.createElement('hr');
+        menu.appendChild(hr);
+      } else {
+        var a = document.createElement('a');
+        a.href = def.href;
+        a.textContent = def.label;
+        a.setAttribute('role', 'menuitem');
+        menu.appendChild(a);
+      }
+    });
     wrapper.appendChild(menu);
 
     var menuLinks = Array.from(menu.querySelectorAll('a[role="menuitem"]'));
 
-    function openDropdown() {
+    function openMenu() {
       wrapper.classList.add('open');
-      divisionsLink.setAttribute('aria-expanded', 'true');
-      menuLinks.forEach(function (a) { a.setAttribute('tabindex', '0'); });
+      arrowBtn.setAttribute('aria-expanded', 'true');
+      arrowBtn.setAttribute('aria-label', 'Close divisions menu');
     }
 
-    function closeDropdown() {
+    function closeMenu(returnFocus) {
       wrapper.classList.remove('open');
-      divisionsLink.setAttribute('aria-expanded', 'false');
-      menuLinks.forEach(function (a) { a.setAttribute('tabindex', '-1'); });
+      arrowBtn.setAttribute('aria-expanded', 'false');
+      arrowBtn.setAttribute('aria-label', 'Open divisions menu');
+      if (returnFocus) arrowBtn.focus();
     }
 
     function isOpen() {
@@ -53,108 +75,101 @@ document.addEventListener('DOMContentLoaded', function () {
       return window.innerWidth <= 860;
     }
 
-    // Desktop: click the Divisions link toggles the dropdown
-    // (hover also opens it via CSS; this keeps it open after the click so users
-    //  can move the mouse down into the menu without it disappearing)
+    // 5. Arrow button: toggle on click
+    arrowBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (isOpen()) { closeMenu(false); } else { openMenu(); }
+    });
+
+    // 6. On mobile, tapping the Divisions link also toggles (shows sub-links in-line)
     divisionsLink.addEventListener('click', function (e) {
       if (isMobile()) {
-        // On mobile the full-screen nav is open; tap toggles sub-list
         e.preventDefault();
-        if (isOpen()) { closeDropdown(); } else { openDropdown(); }
-      } else {
-        // On desktop: allow normal navigation to /divisions/ on a second click
-        // (first click opens if closed; if already open let the link through)
-        if (!isOpen()) {
-          e.preventDefault();
-          openDropdown();
-          divisionsLink.focus();
-        }
-        // If already open, the click navigates normally to /divisions/
+        if (isOpen()) { closeMenu(false); } else { openMenu(); }
       }
+      // On desktop the link navigates normally to /divisions/
     });
 
-    // Close when clicking outside
+    // 7. Close when clicking outside
     document.addEventListener('click', function (e) {
-      if (!wrapper.contains(e.target)) {
-        closeDropdown();
+      if (!wrapper.contains(e.target) && isOpen()) {
+        closeMenu(false);
       }
     });
 
-    // Close on Escape; return focus to trigger
+    // 8. Escape closes and returns focus to arrow button
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && isOpen()) {
-        closeDropdown();
-        divisionsLink.focus();
+        closeMenu(true);
       }
     });
 
-    // Keyboard: open with Enter/Space on the trigger; arrow-key navigation inside menu
-    divisionsLink.addEventListener('keydown', function (e) {
+    // 9. Keyboard: open with Enter/Space/ArrowDown on the arrow button
+    arrowBtn.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
-        if (!isMobile()) {
-          e.preventDefault();
-          if (isOpen()) {
-            closeDropdown();
-          } else {
-            openDropdown();
-            menuLinks[0] && menuLinks[0].focus();
-          }
+        e.preventDefault();
+        if (isOpen()) {
+          closeMenu(false);
+        } else {
+          openMenu();
+          if (menuLinks[0]) menuLinks[0].focus();
         }
       }
-      if (e.key === 'ArrowDown' && !isMobile()) {
+      if (e.key === 'ArrowDown') {
         e.preventDefault();
-        openDropdown();
-        menuLinks[0] && menuLinks[0].focus();
+        openMenu();
+        if (menuLinks[0]) menuLinks[0].focus();
       }
     });
 
-    // Arrow-key navigation within menu items
+    // 10. Arrow-key / Tab navigation within the menu
     menu.addEventListener('keydown', function (e) {
       var focused = document.activeElement;
       var idx = menuLinks.indexOf(focused);
+
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        var next = menuLinks[idx + 1] || menuLinks[0];
-        next && next.focus();
+        (menuLinks[idx + 1] || menuLinks[0]).focus();
       }
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        var prev = menuLinks[idx - 1] || menuLinks[menuLinks.length - 1];
-        prev && prev.focus();
+        (menuLinks[idx - 1] || menuLinks[menuLinks.length - 1]).focus();
       }
-      if (e.key === 'Tab') {
-        // Let Tab close the dropdown naturally as focus leaves
-        closeDropdown();
-      }
+      // Tab: allow normal tab order through links; close when focus leaves wrapper
     });
 
-    // Close when a menu link is focused out to something outside the wrapper
+    // 11. Close when focus leaves the entire wrapper
     wrapper.addEventListener('focusout', function (e) {
-      // relatedTarget is null if focus leaves the document entirely
-      if (!wrapper.contains(e.relatedTarget)) {
-        closeDropdown();
+      // relatedTarget is null when focus leaves the page entirely
+      if (!e.relatedTarget || !wrapper.contains(e.relatedTarget)) {
+        // Small delay so a click on a menu link fires before we close
+        setTimeout(function () {
+          if (!wrapper.contains(document.activeElement)) {
+            closeMenu(false);
+          }
+        }, 50);
       }
     });
   }
 
   // --- Mobile hamburger toggle ---
-  function setOpen(isOpen) {
-    nav.classList.toggle('open', isOpen);
-    toggle.classList.toggle('open', isOpen);
-    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  function setNavOpen(open) {
+    nav.classList.toggle('open', open);
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
 
   toggle.addEventListener('click', function () {
-    setOpen(!nav.classList.contains('open'));
+    setNavOpen(!nav.classList.contains('open'));
   });
 
   // Close mobile nav when a top-level (non-dropdown) link is tapped
   nav.querySelectorAll('a:not(.nav-dropdown a)').forEach(function (a) {
-    a.addEventListener('click', function () { setOpen(false); });
+    a.addEventListener('click', function () { setNavOpen(false); });
   });
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') setOpen(false);
+    if (e.key === 'Escape') setNavOpen(false);
   });
 });
 
